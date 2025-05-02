@@ -27,11 +27,7 @@
               }
             ],
             "styles": [
-<<<<<<< HEAD
-              "@angular/material/prebuilt-themes/magenta-violet.css",
-=======
               "src/custom-theme.scss",
->>>>>>> 91313c3ed6afa7f08117138fa3d1630c13da8c1e
               "src/styles.css"
             ],
             "scripts": []
