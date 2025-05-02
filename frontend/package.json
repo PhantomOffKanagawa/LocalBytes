@@ -11,12 +11,20 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.1.0",
+<<<<<<< HEAD
     "@angular/cdk": "^19.2.11",
+=======
+    "@angular/cdk": "^19.2.14",
+>>>>>>> 91313c3ed6afa7f08117138fa3d1630c13da8c1e
     "@angular/common": "^19.1.0",
     "@angular/compiler": "^19.1.0",
     "@angular/core": "^19.1.0",
     "@angular/forms": "^19.1.0",
+<<<<<<< HEAD
     "@angular/material": "^19.2.11",
+=======
+    "@angular/material": "^19.2.14",
+>>>>>>> 91313c3ed6afa7f08117138fa3d1630c13da8c1e
     "@angular/platform-browser": "^19.1.0",
     "@angular/platform-browser-dynamic": "^19.1.0",
     "@angular/router": "^19.1.0",

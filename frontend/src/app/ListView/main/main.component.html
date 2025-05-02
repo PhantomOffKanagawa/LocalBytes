@@ -1,0 +1,9 @@
+<main>
+  <mat-card *ngFor="let restaurant of restaurants">
+    <mat-card-header>{{ restaurant.title }}</mat-card-header>
+    <mat-card-content>
+      <h2>Description:</h2>
+      <p>{{ restaurant.description }}</p>
+    </mat-card-content>
+  </mat-card>
+</main>

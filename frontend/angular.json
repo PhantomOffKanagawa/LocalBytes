@@ -27,7 +27,11 @@
               }
             ],
             "styles": [
+<<<<<<< HEAD
               "@angular/material/prebuilt-themes/magenta-violet.css",
+=======
+              "src/custom-theme.scss",
+>>>>>>> 91313c3ed6afa7f08117138fa3d1630c13da8c1e
               "src/styles.css"
             ],
             "scripts": []
@@ -94,5 +98,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "1e2cab6d-4c7a-4b6e-a54e-7eeeb2d613bc"
   }
 }
