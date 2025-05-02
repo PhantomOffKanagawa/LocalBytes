@@ -1,10 +1,10 @@
 import { Routes } from "@angular/router";
-import { HomepageComponent } from "./Homepage/homepage/homepage.component";
+import { HomeComponent } from "./Homepage/homepage/home/home.component";
 import { ListViewComponent } from "./ListView/list-view/list-view.component";
 export const routes: Routes = [
   {
     path: "",
-    component: HomepageComponent,
+    component: HomeComponent,
     title: "This is a homepage",
   },
   {

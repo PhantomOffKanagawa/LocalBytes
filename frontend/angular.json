@@ -16,9 +16,7 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
@@ -27,11 +25,8 @@
               }
             ],
             "styles": [
-<<<<<<< HEAD
               "@angular/material/prebuilt-themes/magenta-violet.css",
-=======
               "src/custom-theme.scss",
->>>>>>> 91313c3ed6afa7f08117138fa3d1630c13da8c1e
               "src/styles.css"
             ],
             "scripts": []
@@ -78,10 +73,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               {
