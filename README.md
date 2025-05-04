@@ -25,6 +25,11 @@ LocalBytes is a web application designed to help users discover local restaurant
 
 ### Frontend Structure
 
+>[!TIP]
+> The frontend has prettier and eslint configured. You can run the following commands to format the code:   
+> `npm run format` - to format the code    
+> `npm run lint` - to lint the code
+
 ```
 frontend/
 ├── src/
