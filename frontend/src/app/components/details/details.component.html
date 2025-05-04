@@ -5,13 +5,15 @@
       <img
         src="https://placehold.co/600x300"
         alt="Restaurant image"
-        class="object-cover w-full h-64"
-      />
+        class="object-cover w-full h-64" />
     </div>
     <!-- Card with title and description -->
-    <mat-card class="w-full rounded-t-none rounded-b-lg shadow-lg border border-gray-200 -mt-2 z-10">
+    <mat-card
+      class="w-full rounded-t-none rounded-b-lg shadow-lg border border-gray-200 -mt-2 z-10">
       <mat-card-header>
-        <h1 class="text-3xl font-bold text-indigo-700">{{ restaurant.title }}</h1>
+        <h1 class="text-3xl font-bold text-indigo-700">
+          {{ restaurant.title }}
+        </h1>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content class="space-y-4">
@@ -27,41 +29,41 @@
       <div class="md:w-1/3 flex flex-col items-center justify-start">
         <h2 class="text-lg font-semibold text-gray-700 mb-2">Rating</h2>
         <div class="flex items-center space-x-1 mb-2">
-          <ng-container *ngFor="let star of [1,2,3,4,5]">
+          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
             <!-- Full Star -->
             <svg
               *ngIf="restaurant.rating >= star"
               class="text-yellow-400 w-7 h-7"
               fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <polygon points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99"/>
+              viewBox="0 0 20 20">
+              <polygon
+                points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99" />
             </svg>
             <!-- Half Star -->
             <svg
-              *ngIf="restaurant.rating >= star - 0.5 && restaurant.rating < star"
+              *ngIf="
+                restaurant.rating >= star - 0.5 && restaurant.rating < star
+              "
               class="text-yellow-400 w-7 h-7"
-              viewBox="0 0 20 20"
-            >
+              viewBox="0 0 20 20">
               <defs>
-                <linearGradient id="half-grad-{{star}}">
-                  <stop offset="50%" stop-color="currentColor"/>
-                  <stop offset="50%" stop-color="#D1D5DB"/>
+                <linearGradient id="half-grad-{{ star }}">
+                  <stop offset="50%" stop-color="currentColor" />
+                  <stop offset="50%" stop-color="#D1D5DB" />
                 </linearGradient>
               </defs>
               <polygon
                 points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99"
-                [attr.fill]="'url(#half-grad-' + star + ')'"
-              />
+                [attr.fill]="'url(#half-grad-' + star + ')'" />
             </svg>
             <!-- Empty Star -->
             <svg
               *ngIf="restaurant.rating < star - 0.5"
               class="text-gray-300 w-7 h-7"
               fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <polygon points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99"/>
+              viewBox="0 0 20 20">
+              <polygon
+                points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99" />
             </svg>
           </ng-container>
         </div>
@@ -70,7 +72,9 @@
       <!-- Comments (right) -->
       <div class="md:w-2/3">
         <h2 class="text-lg font-semibold text-gray-700 mb-2">Comments</h2>
-        <div *ngIf="restaurant.comments?.length; else noComments" class="space-y-2">
+        <div
+          *ngIf="restaurant.comments?.length; else noComments"
+          class="space-y-2">
           <div *ngFor="let comment of restaurant.comments">
             <div class="bg-gray-100 rounded px-4 py-3 text-gray-700 shadow">
               {{ comment }}

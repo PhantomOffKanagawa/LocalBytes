@@ -11,7 +11,7 @@ import { Inject } from '@angular/core';
   selector: 'app-details',
   imports: [NgFor, NgIf, MatCardModule, MatDividerModule, MatButtonModule],
   templateUrl: './details.component.html',
-  styleUrl: './details.component.css'
+  styleUrl: './details.component.css',
 })
 export class DetailsComponent {
   readonly dialogRef = inject(MatDialogRef<DetailsComponent>);
