@@ -1,11 +1,13 @@
-<mat-toolbar color="primary" class="flex items-center px-4">
-  <a routerLink="/" class="flex items-center gap-2 no-underline text-white">
-    <img src="LocalBytes_Logo_dark.png" alt="LocalBytes Logo" class="h-10" />
-    <span class="text-xl font-semibold">LocalBytes</span>
-  </a>
+<div class="bg-gray-800">
+    <mat-toolbar class="flex items-center justify-between px-4 py-2 bg-gray-900 text-white">
+        <a routerLink="/" class="flex items-center gap-2 no-underline text-white">
+            <img src="LocalBytes_Logo_dark.png" alt="LocalBytes Logo" class="h-10" />
+            <span class="text-xl font-semibold hidden sm:inline">LocalBytes</span>
+        </a>
 
-  <span class="flex-grow"></span>
+        <span class="flex-grow"></span>
 
-  <a mat-button routerLink="/restaurants" class="text-white">Restaurant List</a>
-  <a mat-button routerLink="/map" class="text-white">Map View</a>
-</mat-toolbar>
+        <a mat-button routerLink="/restaurants" class="text-white hover:text-amber-700 px-2">Restaurant List</a>
+        <a mat-button routerLink="/map" class="text-white hover:text-amber-700 px-2">Map View</a>
+    </mat-toolbar>  
+</div>
