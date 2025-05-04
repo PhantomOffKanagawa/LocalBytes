@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from '@pages/homepage/homepage.component';
+import { HomeComponent } from '@pages/home/home.component';
 import { ListViewComponent } from '@pages/list-view/list-view.component';
 import { MapViewComponent } from './components/map/map.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: HomepageComponent,
+    component: HomeComponent,
     title: 'This is a homepage',
   },
   {
