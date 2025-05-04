@@ -15,11 +15,11 @@ export class RestaurantService {
   constructor(private http: HttpClient) {
     for (let i = 0; i < 10; i++) {
       // Generate random coordinates around the initial location
-      let coordinates: [number, number] = [
+      const coordinates: [number, number] = [
         this.lng + Math.random() * 0.1 - 0.05,
         this.lat + Math.random() * 0.1 - 0.05,
       ];
-      let rest: Restaurant = {
+      const rest: Restaurant = {
         id: i,
         title: `This is test ${i + 1}`,
         description: `This is test ${i + 1}`,

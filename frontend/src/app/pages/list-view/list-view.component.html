@@ -16,7 +16,12 @@
         <div class="w-1/2 flex flex-col">
           <mat-card-header>
             <h1 class="text-2xl font-bold text-indigo-700">
-              <a (click)="openDialog(restaurant)">
+              <a
+                (click)="openDialog(restaurant)"
+                (keyup.enter)="openDialog(restaurant)"
+                tabindex="0"
+                role="button"
+                class="cursor-pointer">
                 {{ restaurant.title }}
               </a>
             </h1>
