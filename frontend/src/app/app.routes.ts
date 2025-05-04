@@ -1,15 +1,22 @@
-import { Routes } from "@angular/router";
-import { HomepageComponent } from "./Homepage/homepage/homepage.component";
-import { ListViewComponent } from "./ListView/list-view/list-view.component";
+import { Routes } from '@angular/router';
+import { HomepageComponent } from '@pages/homepage/homepage.component';
+import { ListViewComponent } from '@pages/list-view/list-view.component';
+import { MapViewComponent } from './components/map/map.component';
+
 export const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: HomepageComponent,
-    title: "This is a homepage",
+    title: 'This is a homepage',
   },
   {
-    path: "list",
+    path: 'map',
+    component: MapViewComponent,
+    title: 'This is a map view',
+  },
+  {
+    path: 'list',
     component: ListViewComponent,
-    title: "Restaurant List",
+    title: 'Restaurant List',
   },
 ];

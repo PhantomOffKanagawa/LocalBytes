@@ -23,6 +23,27 @@ LocalBytes is a web application designed to help users discover local restaurant
 - **Backend**: Express/Node.js API
 - **Database**: MongoDB for data storage
 
+### Frontend Structure
+
+```
+frontend/
+├── src/
+│   ├── app/
+│   │   ├── components/  # Reusable components (@components)
+│   │   ├── models/      # Data models (interfaces) (@models)
+│   │   ├── pages/       # Application pages (components) (@pages)
+│   │   ├── services/    # API services (@services)
+│   │   ├── app.config.ts # Main configuration file
+│   │   ├── app.module.ts # Main module
+│   │   └── app.routes.ts # Main routing file (define routes here)
+│   ├── environments/    # Environment configuration (@environment)
+│   │   └── environment.ts # Main environment file (define environment variables here)
+│   ├── index.html       # Index html file
+├── angular.json         # Angular configuration file
+├── package.json         # Frontend package file
+└── tsconfig.json        # TypeScript configuration file
+```
+
 ## Getting Started
 
 ### Prerequisites

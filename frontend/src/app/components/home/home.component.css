@@ -1,45 +1,45 @@
 .navbar {
   display: flex;
   align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  
-  .app-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  .home-container {
-    text-align: center;
-    margin-top: 20vh;
-    padding: 0 20px;
-  }
-  
-  .headline {
-    font-size: 3rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .subtext {
-    font-size: 1.25rem;
-    color: #555;
-    margin-bottom: 2rem;
-  }
-  
-  .logo {
-    height: 60px;
-    margin-right: 10px;
-  }
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
-  .main-logo {
-    height: 100px;
-    margin-bottom: 0 auto 20px auto;
-    display: block;
-  }
+.app-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.home-container {
+  text-align: center;
+  margin-top: 20vh;
+  padding: 0 20px;
+}
+
+.headline {
+  font-size: 3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.subtext {
+  font-size: 1.25rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  height: 60px;
+  margin-right: 10px;
+}
+
+.main-logo {
+  height: 100px;
+  margin-bottom: 0 auto 20px auto;
+  display: block;
+}
