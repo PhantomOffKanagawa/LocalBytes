@@ -9,10 +9,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '@components/details/details.component';
+import { RestaurantCardComponent } from '@components/restaurant-card/restaurant-card.component';
 
 @Component({
   selector: 'app-list-view',
-  imports: [NgFor, NgIf, MatCardModule, MatDividerModule],
+  imports: [NgFor, NgIf, MatCardModule, MatDividerModule, RestaurantCardComponent],
   templateUrl: './list-view.component.html',
   styleUrl: './list-view.component.css',
 })
@@ -20,6 +21,7 @@ export class ListViewComponent implements OnInit {
   readonly dialog = inject(MatDialog);
 
   openDialog(restaurant: Restaurant): void {
+    console.log('openDialog', restaurant);
     const dialogRef = this.dialog.open(DetailsComponent, {
       width: '1000px',
       data: { restaurant },

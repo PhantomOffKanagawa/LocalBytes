@@ -23,7 +23,7 @@ export class RestaurantService {
         id: i,
         title: `This is test ${i + 1}`,
         description: `This is test ${i + 1}`,
-        rating: 5.0,
+        rating: Math.random() * 4 + 1,
         comments: [`This is test ${i + 1}`],
         geometry: {
           coordinates: coordinates,
