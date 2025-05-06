@@ -57,7 +57,8 @@ frontend/
 > `npm run format` - to format the code    
 
 >[!TIP]
-> The api is documented in the `api-docs.md` file.
+> The api is documented with apidoc and is available by default at `http://localhost:5000/api-docs`. You can run the following command to generate the documentation:
+> `npm run docs` - to generate the documentation
 
 ```
 backend/

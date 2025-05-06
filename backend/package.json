@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "docs": "apidoc -i routes/ -o docs/"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,13 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.5.3"
+  },
+  "apidoc": {
+    "name": "LocalBytes API Documentation",
+    "version": "0.1.0",
+    "description": "API documentation for LocalBytes",
+    "title": "LocalBytes API",
+    "url": "http://localhost:5000",
+    "sampleUrl": "http://localhost:5000"
   }
 }

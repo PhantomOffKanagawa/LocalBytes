@@ -2,10 +2,107 @@ const express = require("express");
 const router = express.Router();
 const restaurantController = require("../controllers/restaurantController");
 
-// GET all restaurants
+/**
+ * @api {get} /api/restaurants Get all restaurants
+ * @apiName GetRestaurants
+ * @apiGroup Restaurant
+ *
+ * @apiSuccess {Object[]} restaurants List of restaurant objects
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *       {
+ *         "location": {
+ *             "lat": 38.9529486,
+ *             "lng": -92.3276463
+ *         },
+ *         "opening_hours": {
+ *             "open_now": true
+ *         },
+ *         "photos": {
+ *             "height": 2268,
+ *             "width": 4032,
+ *             "attributions": [
+ *                 "<a href=\"https://maps.google.com/maps/contrib/113787450722551411590\">Stephen McBee</a>"
+ *             ],
+ *             "reference": "AeeoHcIbL9a08SoJzCEFUmCiyUYFHmwKBQHqnUg-RvHSRykOJZSPXSjgxdFv6usg3qObOFSzWdLt9eF1XFDsqeyqFKP4p35XNY_51U8n1nmyk7t_BQdgg6NgOLYz4JeW-Z1mpX46otsfGiHUHM9u14ZCLlHauiSKjlw0zW2sVUp8cVBamzdTip2qz4SsCz85xcq1TytNbzhKd015irE_jIL5q93j3SMX3nYFo6zsCWPmHuu11tC8EDcexUrvy6D2j06fZcQjK3OgwNHJs_KP3q3yAoVWsrOaGGXVAi63Z302W4TZgQOmRBI"
+ *         },
+ *         "_id": "6817dbc8c7ed20dc97601132",
+ *         "name": "Endwell Taverna",
+ *         "address": "107 N 9th St, Columbia, MO 65201, United States",
+ *         "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+ *         "icon_background_color": "#FF9E67",
+ *         "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+ *         "rating": 4.7,
+ *         "price_level": null,
+ *         "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *         "user_ratings_total": 129,
+ *         "types": [
+ *             "restaurant",
+ *             "point_of_interest",
+ *             "food",
+ *             "establishment"
+ *         ],
+ *         "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *         "__v": 0
+ *       }
+ *     ]
+ */
 router.get("/", restaurantController.getRestaurants);
 
-// GET fetch restaurants from Google Places API
+/**
+ * @api {get} /api/restaurants/fetch Fetch restaurants from Google Places API
+ * @apiName FetchRestaurants
+ * @apiGroup Restaurant
+ *
+ * @apiParam {Number} [lat=38.951561] Latitude coordinate
+ * @apiParam {Number} [lng=-92.328636] Longitude coordinate
+ * @apiParam {Number} [radius=8000] Search radius in meters
+ * @apiParam {String} [query=restaurant] Search query
+ *
+ * @apiSuccess {Object[]} restaurants Newly added restaurants
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *       {
+ *         "location": {
+ *             "lat": 38.9529486,
+ *             "lng": -92.3276463
+ *         },
+ *         "opening_hours": {
+ *             "open_now": true
+ *         },
+ *         "photos": {
+ *             "height": 2268,
+ *             "width": 4032,
+ *             "attributions": [
+ *                 "<a href=\"https://maps.google.com/maps/contrib/113787450722551411590\">Stephen McBee</a>"
+ *             ],
+ *             "reference": "AeeoHcIbL9a08SoJzCEFUmCiyUYFHmwKBQHqnUg-RvHSRykOJZSPXSjgxdFv6usg3qObOFSzWdLt9eF1XFDsqeyqFKP4p35XNY_51U8n1nmyk7t_BQdgg6NgOLYz4JeW-Z1mpX46otsfGiHUHM9u14ZCLlHauiSKjlw0zW2sVUp8cVBamzdTip2qz4SsCz85xcq1TytNbzhKd015irE_jIL5q93j3SMX3nYFo6zsCWPmHuu11tC8EDcexUrvy6D2j06fZcQjK3OgwNHJs_KP3q3yAoVWsrOaGGXVAi63Z302W4TZgQOmRBI"
+ *         },
+ *         "_id": "6817dbc8c7ed20dc97601132",
+ *         "name": "Endwell Taverna",
+ *         "address": "107 N 9th St, Columbia, MO 65201, United States",
+ *         "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+ *         "icon_background_color": "#FF9E67",
+ *         "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+ *         "rating": 4.7,
+ *         "price_level": null,
+ *         "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *         "user_ratings_total": 129,
+ *         "types": [
+ *             "restaurant",
+ *             "point_of_interest",
+ *             "food",
+ *             "establishment"
+ *         ],
+ *         "google_maps_url": "https://www.google.com/maps/place/?q=place_id:ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *         "__v": 0
+ *       }
+ *     ]
+ */
 router.get("/fetch", restaurantController.fetchAndSaveRestaurants);
 
 module.exports = router;

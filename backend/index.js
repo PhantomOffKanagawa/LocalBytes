@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "../.env" });
 const express = require("express");
+const path = require("path");
 const morgan = require("morgan");
 const cors = require("cors");
 const connectDB = require("./utils/db");
@@ -31,6 +32,11 @@ const commentRoutes = require("./routes/commentRoutes");
 // Set Routes
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/comments", commentRoutes);
+
+// Serve API documentation
+app.use("/api-docs", express.static(path.join(__dirname, "docs")));
+
+// Serve root route
 app.get("/", (req, res) => {
   res.send("LocalBytes API is running");
 });

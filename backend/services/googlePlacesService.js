@@ -30,6 +30,10 @@ const fetchAllRestaurants = async (query, lat, lng, radius, apiKey) => {
       },
     );
 
+    if (response.data.status == "REQUEST_DENIED") {
+      throw new Error("Failed to fetch data from Google Places API");
+    }
+
     const data = response.data;
     console.log(`Page ${page++}:`, data.results.length);
 

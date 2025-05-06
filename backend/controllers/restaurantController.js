@@ -26,6 +26,8 @@ const fetchAndSaveRestaurants = async (req, res) => {
   } = req.query;
   const apiKey = config.GMAPS_API_KEY;
 
+  console.log(apiKey);
+
   if (!apiKey) {
     return res.status(400).json({ error: "Google Maps API key is required" });
   }

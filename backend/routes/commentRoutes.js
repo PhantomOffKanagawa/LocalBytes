@@ -2,10 +2,80 @@ const express = require("express");
 const router = express.Router();
 const commentController = require("../controllers/commentController");
 
-// POST create a new comment
+/**
+ * @api {post} /api/comments Create a new comment
+ * @apiName CreateComment
+ * @apiGroup Comment
+ *
+ * @apiBody {String} body Content of the comment
+ * @apiBody {String} place_id Google Place ID of the restaurant
+ * @apiBody {String} uuid User ID
+ *
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "body": "This restaurant is amazing!",
+ *       "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *       "uuid": "user123_uuid"
+ *     }
+ *
+ * @apiSuccess {Object} comment Created comment
+ * @apiSuccess {String} comment._id MongoDB id of the comment
+ * @apiSuccess {String} comment.body Content of the comment
+ * @apiSuccess {String} comment.place_id Google Place ID of the restaurant
+ * @apiSuccess {String} comment.uuid User ID
+ * @apiSuccess {Date} comment.created_at Creation timestamp
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 201 Created
+ *    {
+ *      "body": "This restaurant is amazing!",
+ *      "datetime": "2025-05-06T23:32:13.958Z",
+ *      "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *      "uuid": "user123_uuid",
+ *      "comment_id": 598664,
+ *      "_id": "681a9bfd54e9712a49f38e30",
+ *      "createdAt": "2025-05-06T23:32:13.965Z",
+ *      "updatedAt": "2025-05-06T23:32:13.965Z",
+ *      "__v": 0
+ *    }
+ */
 router.post("/", commentController.createComment);
 
-// GET comments for a specific restaurant by place_id
+/**
+ * @api {get} /api/comments/place/:placeId Get comments for a specific restaurant by place_id
+ * @apiName GetCommentsByPlaceId
+ * @apiGroup Comment
+ *
+ * @apiParam {String} placeId Google Place ID of the restaurant
+ *
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "placeId": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ"
+ *     }
+ *
+ * @apiSuccess {Object[]} comments List of comments for the restaurant
+ * @apiSuccess {String} comments._id MongoDB id of the comment
+ * @apiSuccess {String} comments.body Content of the comment
+ * @apiSuccess {String} comments.place_id Google Place ID of the restaurant
+ * @apiSuccess {String} comments.uuid User ID
+ * @apiSuccess {Date} comments.created_at Creation timestamp
+ *
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 201 Created
+ *    [
+ *      {
+ *        "body": "This restaurant is amazing!",
+ *        "datetime": "2025-05-06T23:32:13.958Z",
+ *        "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *        "uuid": "user123_uuid",
+ *        "comment_id": 598664,
+ *        "_id": "681a9bfd54e9712a49f38e30",
+ *        "createdAt": "2025-05-06T23:32:13.965Z",
+ *        "updatedAt": "2025-05-06T23:32:13.965Z",
+ *        "__v": 0
+ *      }
+ *    ]
+ */
 router.get("/place/:placeId", commentController.getCommentsByPlaceId);
 
 // PUT update a comment
