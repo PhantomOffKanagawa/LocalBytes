@@ -7,10 +7,16 @@ import { Restaurant } from '@models/restaurant';
 })
 export class MapInteractionService {
   // Subject for sending restaurant to zoom to
-  zoomToRestaurantSource = new Subject<Restaurant>();
+  private zoomToRestaurantSource = new Subject<Restaurant>();
   zoomToRestaurant$ = this.zoomToRestaurantSource.asObservable();
+  get zoomToRestaurant(): Subject<Restaurant> {
+    return this.zoomToRestaurantSource;
+}
 
   // Subject for requesting to open restaurant details from map popup
-  openDetailsSource = new Subject<Restaurant>();
+  private openDetailsSource = new Subject<Restaurant>();
   openDetails$ = this.openDetailsSource.asObservable();
+    get openDetails(): Subject<Restaurant> {
+    return this.zoomToRestaurantSource;
+}
 }

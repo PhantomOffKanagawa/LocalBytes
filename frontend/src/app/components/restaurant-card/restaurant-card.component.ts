@@ -37,14 +37,14 @@ export class RestaurantCardComponent {
   // Method to trigger opening the details dialog
   openDialog(): void {
     if (this.restaurant) {
-      this.mapInteractionService.openDetailsSource.next(this.restaurant);
+      this.mapInteractionService.openDetails.next(this.restaurant);
     }
   }
 
   // Method to trigger zooming to restaurant location on map
   zoomToRestaurant(): void {
     if (this.restaurant) {
-      this.mapInteractionService.zoomToRestaurantSource.next(this.restaurant);
+      this.mapInteractionService.zoomToRestaurant.next(this.restaurant);
     }
   }
 }

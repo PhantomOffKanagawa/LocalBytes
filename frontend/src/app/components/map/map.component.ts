@@ -161,7 +161,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
 
           // Define the event listener
           (button as any).clickListener = () => {
-            this.mapInteractionService.openDetailsSource.next(restaurant);
+            this.mapInteractionService.openDetails.next(restaurant);
           };
 
           // Add the event listener
