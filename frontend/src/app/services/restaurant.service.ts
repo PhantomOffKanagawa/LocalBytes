@@ -12,29 +12,51 @@ export class RestaurantService {
   lat: number = 38.951561;
   lng: number = -92.328636;
 
-  constructor(private http: HttpClient) {
-    for (let i = 0; i < 10; i++) {
-      // Generate random coordinates around the initial location
-      const coordinates: [number, number] = [
-        this.lng + Math.random() * 0.1 - 0.05,
-        this.lat + Math.random() * 0.1 - 0.05,
-      ];
-      const rest: Restaurant = {
-        id: i,
-        title: `This is test ${i + 1}`,
-        description: `This is test ${i + 1}`,
-        rating: Math.random() * 4 + 1,
-        comments: [`This is test ${i + 1}`],
-        geometry: {
-          coordinates: coordinates,
-        },
-      };
-      this.restaurants.push(rest);
-    }
-  }
+  constructor(private http: HttpClient) { }
 
   getRestaurants(): Restaurant[] {
+    // Since Restaurants are not dynamically updated, we can use sessionStorage to cache them
+    // This will prevent unnecessary API calls and improve performance
+    // Check if restaurants are stored in sessionStorage
+    const storedRestaurants = sessionStorage.getItem('restaurants');
+    if (storedRestaurants) {
+      console.log('Using cached restaurants from sessionStorage');
+      this.restaurants = JSON.parse(storedRestaurants);
+      return this.restaurants;
+    }
+
+    console.log('Fetching restaurants from API...');
+    // Fetch restaurants from the API and convert them to the Restaurant model
+    this.http.get<Restaurant[]>('http://localhost:5000/api/restaurants')
+    .subscribe({
+      next: (data) => {
+        this.restaurants = data.map(this.restaurantAdapter);
+        this.restaurantsUpdated.next([...this.restaurants]);
+        // Store restaurants in sessionStorage
+        sessionStorage.setItem('restaurants', JSON.stringify(this.restaurants));
+      },
+      error: (error) => {
+        console.error('Error fetching restaurants:', error);
+      }
+    });
+
+    // Return the restaurants array (may be empty at this point)
     return this.restaurants;
+  }
+
+  // For rapid development, use an adapter to convert the API response to the Restaurant model
+  restaurantAdapter(data: any): Restaurant {
+    return {
+      id: data._id,
+      title: data.name,
+      description: data.address,
+      rating: data.rating,
+      comments: [],
+      icon_url: data.icon,
+      geometry: {
+        coordinates: [data.location.lng, data.location.lat],
+      }
+    };
   }
 
   getRestaurantsUpdateListener() {

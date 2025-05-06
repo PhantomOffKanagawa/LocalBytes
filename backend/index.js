@@ -11,7 +11,14 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
-app.use(cors());
+// CORS configuration
+// Allow requests from the Angular frontend
+// For now they are set statically to avoid env updates
+// TODO: Use env variables for this
+app.use(cors({
+  origin: 'http://localhost:4200'
+}));
+
 app.use(express.json());
 
 // Schema + Unique name index
@@ -143,6 +150,20 @@ app.get('/api/fetch-restaurants', async (req, res) => {
 
     res.json(added);
   } catch (err) {
+    console.error("Error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Fetch all restaurants from the database
+app.get('/api/restaurants', async (req, res) => {
+  try {
+    // Try to fetch all restaurants from the database
+    const restaurants = await Restaurant.find({});
+    // If found return them as JSON
+    res.json(restaurants);
+  } catch (err) {
+    // If an error occurs, log it and return a 500 status with the error message
     console.error("Error:", err.message);
     res.status(500).json({ error: err.message });
   }

@@ -81,9 +81,10 @@ export class MapViewComponent implements OnInit, OnDestroy {
     this.restaurants.forEach(restaurant => {
       const el = document.createElement('div');
       el.className = 'marker';
-      el.style.backgroundImage = 'url(https://placecats.com/g/50/50/)';
+      el.style.backgroundImage = `url(${restaurant.icon_url})`;
       el.style.width = '50px';
       el.style.height = '50px';
+      el.style.backgroundSize = 'cover';
 
       const lng = restaurant.geometry.coordinates[0];
       const lat = restaurant.geometry.coordinates[1];
