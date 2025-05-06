@@ -169,11 +169,50 @@ app.get('/api/restaurants', async (req, res) => {
   }
 });
 
+// Create a new comment
+const Comment = mongoose.models.Comment || mongoose.model('Comment', commentSchema);
+app.post('/api/comment/create', async (req, res) => {
+  const { body, place_id, uuid } = req.body;
 
-app.get('/api/comment/create', async (req, res) => {
+  if (!body || !place_id || !uuid) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const comment_id = Math.floor(Math.random() * 1_000_000); // Simple unique ID for now
+
+    const comment = await Comment.create({
+      body,
+      datetime: new Date(),
+      place_id,
+      uuid,
+      comment_id,
+    });
+
+    res.status(201).json(comment);
+  } catch (err) {
+    console.error("Comment creation error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
+
+// Read comments for a specific place_id
 app.get('/api/comment/read', async (req, res) => {
+  const { place_id } = req.query;
+
+  if (!place_id) {
+    return res.status(400).json({ error: "Missing place_id" });
+  }
+
+  try {
+    const comments = await Comment.find({ place_id }).sort({ datetime: -1 });
+    res.json(comments);
+  } catch (err) {
+    console.error("Read error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 });
+
 app.get('/api/comment/update', async (req, res) => {
 });
 app.get('/api/comment/delete', async (req, res) => {
