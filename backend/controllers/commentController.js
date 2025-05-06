@@ -1,25 +1,25 @@
-const Comment = require('../models/Comment');
+const Comment = require("../models/Comment");
 
 // Create a new comment
 const createComment = async (req, res) => {
   try {
     const { body, place_id, uuid } = req.body;
 
-  if (!body || !place_id || !uuid) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-    
+    if (!body || !place_id || !uuid) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
     // TODO: Use actual UUID generation instead of Math.random()
     const comment_id = Math.floor(Math.random() * 1_000_000); // Simple unique ID for now
-    
+
     const newComment = new Comment({
       body,
       place_id,
       uuid,
       comment_id,
-      datetime: new Date()
+      datetime: new Date(),
     });
-    
+
     const savedComment = await newComment.save();
     res.status(201).json(savedComment);
   } catch (err) {
@@ -37,7 +37,9 @@ const getCommentsByPlaceId = async (req, res) => {
       return res.status(400).json({ error: "Missing placeId" });
     }
 
-    const comments = await Comment.find({ place_id: placeId }).sort({ datetime: -1 });
+    const comments = await Comment.find({ place_id: placeId }).sort({
+      datetime: -1,
+    });
     res.json(comments);
   } catch (err) {
     console.error("Error fetching comments:", err.message);
@@ -47,17 +49,17 @@ const getCommentsByPlaceId = async (req, res) => {
 
 // Update a comment
 const updateComment = async (req, res) => {
-    throw new Error("Not implemented yet");
+  throw new Error("Not implemented yet");
 };
 
 // Delete a comment
 const deleteComment = async (req, res) => {
-    throw new Error("Not implemented yet");
+  throw new Error("Not implemented yet");
 };
 
 module.exports = {
   createComment,
   getCommentsByPlaceId,
   updateComment,
-  deleteComment
+  deleteComment,
 };

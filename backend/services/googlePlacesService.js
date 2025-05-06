@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 
 /**
  * Fetch all restaurants from Google Places API (text search)
@@ -15,17 +15,20 @@ const fetchAllRestaurants = async (query, lat, lng, radius, apiKey) => {
   let page = 1;
 
   do {
-    if (nextPageToken) await new Promise(r => setTimeout(r, 2000));
+    if (nextPageToken) await new Promise((r) => setTimeout(r, 2000));
 
-    const response = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
-      params: {
-        query,
-        location: `${lat},${lng}`,
-        radius,
-        key: apiKey,
-        pagetoken: nextPageToken,
+    const response = await axios.get(
+      "https://maps.googleapis.com/maps/api/place/textsearch/json",
+      {
+        params: {
+          query,
+          location: `${lat},${lng}`,
+          radius,
+          key: apiKey,
+          pagetoken: nextPageToken,
+        },
       },
-    });
+    );
 
     const data = response.data;
     console.log(`Page ${page++}:`, data.results.length);
@@ -33,12 +36,12 @@ const fetchAllRestaurants = async (query, lat, lng, radius, apiKey) => {
     allResults.push(...(data.results || []));
     nextPageToken = data.next_page_token || null;
 
-    if (nextPageToken) await new Promise(r => setTimeout(r, 2000));
+    if (nextPageToken) await new Promise((r) => setTimeout(r, 2000));
   } while (nextPageToken);
 
   return allResults;
 };
 
 module.exports = {
-  fetchAllRestaurants
+  fetchAllRestaurants,
 };

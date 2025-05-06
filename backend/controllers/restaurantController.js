@@ -1,6 +1,6 @@
-const Restaurant = require('../models/Restaurant');
-const { fetchAllRestaurants } = require('../services/googlePlacesService');
-const config = require('../utils/config');
+const Restaurant = require("../models/Restaurant");
+const { fetchAllRestaurants } = require("../services/googlePlacesService");
+const config = require("../utils/config");
 
 // Get all restaurants
 const getRestaurants = async (req, res) => {
@@ -18,17 +18,22 @@ const getRestaurants = async (req, res) => {
 
 // Fetch restaurants from Google Places API and save to database
 const fetchAndSaveRestaurants = async (req, res) => {
-  const { lat = 38.951561, lng = -92.328636, radius = 8000, query = 'restaurant' } = req.query;
+  const {
+    lat = 38.951561,
+    lng = -92.328636,
+    radius = 8000,
+    query = "restaurant",
+  } = req.query;
   const apiKey = config.GMAPS_API_KEY;
 
   if (!apiKey) {
-    return res.status(400).json({ error: 'Google Maps API key is required' });
+    return res.status(400).json({ error: "Google Maps API key is required" });
   }
 
   try {
     const results = await fetchAllRestaurants(query, lat, lng, radius, apiKey);
 
-    const entries = results.map(p => ({
+    const entries = results.map((p) => ({
       name: p.name,
       address: p.formatted_address || p.vicinity,
       location: {
@@ -41,18 +46,20 @@ const fetchAndSaveRestaurants = async (req, res) => {
       opening_hours: {
         open_now: p.opening_hours?.open_now || false,
       },
-      photos: p.photos?.[0] ? {
-        height: p.photos[0].height,
-        width: p.photos[0].width,
-        attributions: p.photos[0].html_attributions,
-        reference: p.photos[0].photo_reference,
-      } : null,
+      photos: p.photos?.[0]
+        ? {
+            height: p.photos[0].height,
+            width: p.photos[0].width,
+            attributions: p.photos[0].html_attributions,
+            reference: p.photos[0].photo_reference,
+          }
+        : null,
       rating: p.rating || null,
       price_level: p.price_level || null,
       place_id: p.place_id,
       user_ratings_total: p.user_ratings_total || 0,
       types: p.types || [],
-      google_maps_url: `https://www.google.com/maps/place/?q=place_id:${p.place_id}`
+      google_maps_url: `https://www.google.com/maps/place/?q=place_id:${p.place_id}`,
     }));
 
     const added = [];
@@ -74,7 +81,10 @@ const fetchAndSaveRestaurants = async (req, res) => {
 
     res.json(added);
   } catch (err) {
-    console.error("Error fetching restaurants from Google Places API:", err.message);
+    console.error(
+      "Error fetching restaurants from Google Places API:",
+      err.message,
+    );
     res.status(500).json({ error: err.message });
   }
 };

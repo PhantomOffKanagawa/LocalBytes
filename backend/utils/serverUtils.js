@@ -1,4 +1,4 @@
-const debug = require('debug')('localbytes-server');
+const debug = require("debug")("localbytes-server");
 
 /**
  * Normalizes a port value to a number or false.
@@ -65,18 +65,18 @@ const onListening = (server, port) => {
  */
 const createServer = (app, portValue = process.env.PORT || "5000") => {
   const http = require("http");
-  
+
   // Normalize port
   const port = normalizePort(portValue);
   app.set("port", port);
-  
+
   // Create HTTP server
   const server = http.createServer(app);
-  
+
   // Set up event listeners
   server.on("error", (error) => onError(error, port));
   server.on("listening", () => onListening(server, port));
-  
+
   return server;
 };
 
@@ -84,5 +84,5 @@ module.exports = {
   normalizePort,
   onError,
   onListening,
-  createServer
+  createServer,
 };

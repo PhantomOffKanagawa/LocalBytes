@@ -51,6 +51,11 @@ frontend/
 
 ### Backend Structure
 
+
+>[!TIP]
+> The frontend has prettier configured. You can run the following commands to format the code:   
+> `npm run format` - to format the code    
+
 >[!TIP]
 > The api is documented in the `api-docs.md` file.
 
