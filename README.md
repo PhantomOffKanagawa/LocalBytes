@@ -49,6 +49,26 @@ frontend/
 └── tsconfig.json        # TypeScript configuration file
 ```
 
+### Backend Structure
+
+>[!TIP]
+> The api is documented in the `api-docs.md` file.
+
+```
+backend/
+├── controllers/         # Methods for handling API requests from the frontend
+├── models/              # Mongoose models for MongoDB collections
+├── routes/              # Definitions for API routes
+├── services/            # Services for handling API requests to the outside
+├── utils/               # Utility functions
+│   ├── config.js        # Handles environment variables
+|   ├── db.js            # Handles database connection
+|   ├── serverUtils.js   # Handles port normalization
+│   └── components/      # Reusable components (@components)
+├── index.js             # Backend entry point
+└── package.json         # Backend package file
+```
+
 ## Getting Started
 
 ### Prerequisites
