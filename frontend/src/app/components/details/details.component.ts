@@ -6,10 +6,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { Restaurant } from '@models/restaurant';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-details',
-  imports: [NgFor, NgIf, MatCardModule, MatDividerModule, MatButtonModule],
+  imports: [NgFor, NgIf, MatCardModule, MatDividerModule, MatButtonModule, MatIconModule, MatListModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })
