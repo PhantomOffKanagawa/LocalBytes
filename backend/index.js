@@ -1,222 +1,40 @@
-require('dotenv').config({ path: '../.env' });
+require("dotenv").config({ path: "../.env" });
+const express = require("express");
+const morgan = require("morgan");
+const cors = require("cors");
+const connectDB = require("./utils/db");
+const config = require("./utils/config");
+const { createServer } = require("./utils/serverUtils");
 
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const axios = require('axios');
-
+// Initialize Express and MongoDB connection
 const app = express();
+connectDB();
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
-
-// CORS configuration
-// Allow requests from the Angular frontend
-// For now they are set statically to avoid env updates
-// TODO: Use env variables for this
-app.use(cors({
-  origin: 'http://localhost:4200'
-}));
-
+// Configure app middleware
+// Add morgan for logging requests
+app.use(morgan("dev"));
+// Parse incoming requests with JSON payloads
 app.use(express.json());
+// Parse incoming requests with URL-encoded payloads
+app.use(express.urlencoded({ extended: false }));
+// Use CORS to allow cross-origin requests from frontend
+app.use(
+  cors({
+    origin: config.CLIENT_URL,
+  }),
+);
 
-// Schema + Unique name index
-const restaurantSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  address: String,
-  location: {
-    lat: Number,
-    lng: Number,
-  },
-  icon: String,
-  icon_background_color: String,
-  icon_mask_base_uri: String,
-  opening_hours: {
-    open_now: Boolean,
-  },
-  photos: {
-    height: Number,
-    width: Number,
-    attributions: [String],
-    reference: String,
-  },
-  rating: Number,
-  price_level: Number,
-  place_id: { type: String, unique: true },
-  user_ratings_total: Number,
-  types: [String],
-  google_maps_url: String
-}, { collection: 'restaurants' });
+// Import routes
+const restaurantRoutes = require("./routes/restaurantRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 
-const commentSchema = new mongoose.Schema({
-  body: String,
-  datetime: Date,
-  place_id: String,
-  uuid: String,
-  comment_id: { type: Number, unique: true }
-}, { collection: 'comments' });
-
-restaurantSchema.index({ name: 1 }, { unique: true });
-
-
-const Restaurant = mongoose.models.Restaurant || mongoose.model('Restaurant', restaurantSchema);
-
-app.get('/', (req, res) => {
-  res.send('API Running');
+// Set Routes
+app.use("/api/restaurants", restaurantRoutes);
+app.use("/api/comments", commentRoutes);
+app.get("/", (req, res) => {
+  res.send("LocalBytes API is running");
 });
 
-// Fetch all pages from Google Places API (nearbysearch)
-const fetchAllRestaurants = async (lat, lng, radius, apiKey) => {
-  let allResults = [];
-  let nextPageToken = null;
-  let page = 1;
-
-  do {
-    if (nextPageToken) await new Promise(r => setTimeout(r, 2000));
-
-    const response = await axios.get('https://maps.googleapis.com/maps/api/place/textsearch/json', {
-      params: {
-        query: 'shakespeares pizza', // <-- Change this to your desired query and then hit the endpoint /api/fetch-restaurants
-        location: `${lat},${lng}`,
-        radius,
-        key: apiKey,
-        pagetoken: nextPageToken,
-      },
-    });
-
-    const data = response.data;
-    console.log(`Page ${page++}:`, data.results.length);
-
-    allResults.push(...(data.results || []));
-    nextPageToken = data.next_page_token || null;
-
-    if (nextPageToken) await new Promise(r => setTimeout(r, 2000));
-  } while (nextPageToken);
-
-  return allResults;
-};
-
-// Fetch & save non-duplicate restaurants
-app.get('/api/fetch-restaurants', async (req, res) => {
-  const { lat = 38.951561, lng = -92.328636, radius = 8000 } = req.query;
-  const apiKey = process.env.GMAPS_API_KEY;
-
-  console.log("Route hit");
-
-  try {
-    const results = await fetchAllRestaurants(lat, lng, radius, apiKey);
-
-    const entries = results.map(p => ({
-      name: p.name,
-      address: p.formatted_address || p.vicinity,
-      location: {
-        lat: p.geometry.location.lat,
-        lng: p.geometry.location.lng,
-      },
-      icon: p.icon,
-      icon_background_color: p.icon_background_color,
-      icon_mask_base_uri: p.icon_mask_base_uri,
-      opening_hours: {
-        open_now: p.opening_hours?.open_now || false,
-      },
-      photos: p.photos?.[0] ? {
-        height: p.photos[0].height,
-        width: p.photos[0].width,
-        attributions: p.photos[0].html_attributions,
-        reference: p.photos[0].photo_reference,
-      } : null,
-      rating: p.rating || null,
-      price_level: p.price_level || null,
-      place_id: p.place_id,
-      user_ratings_total: p.user_ratings_total || 0,
-      types: p.types || [],
-      google_maps_url: `https://www.google.com/maps/place/?q=place_id:${p.place_id}`
-    }));
-    
-
-    const added = [];
-    for (const entry of entries) {
-      const exists = await Restaurant.findOne({ name: entry.name });
-
-      if (!exists) {
-        const newDoc = await Restaurant.create(entry);
-        added.push(newDoc);
-        console.log("Added:", entry.name);
-      } else {
-        console.log("Skipped (duplicate):", entry.name);
-      }
-    }
-
-    res.json(added);
-  } catch (err) {
-    console.error("Error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Fetch all restaurants from the database
-app.get('/api/restaurants', async (req, res) => {
-  try {
-    // Try to fetch all restaurants from the database
-    const restaurants = await Restaurant.find({});
-    // If found return them as JSON
-    res.json(restaurants);
-  } catch (err) {
-    // If an error occurs, log it and return a 500 status with the error message
-    console.error("Error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Create a new comment
-const Comment = mongoose.models.Comment || mongoose.model('Comment', commentSchema);
-app.post('/api/comment/create', async (req, res) => {
-  const { body, place_id, uuid } = req.body;
-
-  if (!body || !place_id || !uuid) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-
-  try {
-    const comment_id = Math.floor(Math.random() * 1_000_000); // Simple unique ID for now
-
-    const comment = await Comment.create({
-      body,
-      datetime: new Date(),
-      place_id,
-      uuid,
-      comment_id,
-    });
-
-    res.status(201).json(comment);
-  } catch (err) {
-    console.error("Comment creation error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// Read comments for a specific place_id
-app.get('/api/comment/read', async (req, res) => {
-  const { place_id } = req.query;
-
-  if (!place_id) {
-    return res.status(400).json({ error: "Missing place_id" });
-  }
-
-  try {
-    const comments = await Comment.find({ place_id }).sort({ datetime: -1 });
-    res.json(comments);
-  } catch (err) {
-    console.error("Read error:", err.message);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.get('/api/comment/update', async (req, res) => {
-});
-app.get('/api/comment/delete', async (req, res) => {
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Create and start server using the serverUtils
+const server = createServer(app, config.PORT);
+server.listen(config.PORT);
