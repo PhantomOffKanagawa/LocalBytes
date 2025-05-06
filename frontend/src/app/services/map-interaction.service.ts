@@ -17,6 +17,6 @@ export class MapInteractionService {
   private openDetailsSource = new Subject<Restaurant>();
   openDetails$ = this.openDetailsSource.asObservable();
   get openDetails(): Subject<Restaurant> {
-    return this.zoomToRestaurantSource;
+    return this.openDetailsSource;
   }
 }
