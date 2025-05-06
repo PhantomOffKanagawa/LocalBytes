@@ -11,12 +11,12 @@ export class MapInteractionService {
   zoomToRestaurant$ = this.zoomToRestaurantSource.asObservable();
   get zoomToRestaurant(): Subject<Restaurant> {
     return this.zoomToRestaurantSource;
-}
+  }
 
   // Subject for requesting to open restaurant details from map popup
   private openDetailsSource = new Subject<Restaurant>();
   openDetails$ = this.openDetailsSource.asObservable();
-    get openDetails(): Subject<Restaurant> {
+  get openDetails(): Subject<Restaurant> {
     return this.zoomToRestaurantSource;
-}
+  }
 }

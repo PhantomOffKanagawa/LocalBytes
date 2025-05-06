@@ -11,7 +11,15 @@ import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-details',
-  imports: [NgFor, NgIf, MatCardModule, MatDividerModule, MatButtonModule, MatIconModule, MatListModule],
+  imports: [
+    NgFor,
+    NgIf,
+    MatCardModule,
+    MatDividerModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+  ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',
 })

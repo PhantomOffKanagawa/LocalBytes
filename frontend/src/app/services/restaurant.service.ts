@@ -12,7 +12,7 @@ export class RestaurantService {
   lat: number = 38.951561;
   lng: number = -92.328636;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getRestaurants(): Restaurant[] {
     // Since Restaurants are not dynamically updated, we can use sessionStorage to cache them
@@ -27,18 +27,22 @@ export class RestaurantService {
 
     console.log('Fetching restaurants from API...');
     // Fetch restaurants from the API and convert them to the Restaurant model
-    this.http.get<Restaurant[]>('http://localhost:5000/api/restaurants')
-    .subscribe({
-      next: (data) => {
-        this.restaurants = data.map(this.restaurantAdapter);
-        this.restaurantsUpdated.next([...this.restaurants]);
-        // Store restaurants in sessionStorage
-        sessionStorage.setItem('restaurants', JSON.stringify(this.restaurants));
-      },
-      error: (error) => {
-        console.error('Error fetching restaurants:', error);
-      }
-    });
+    this.http
+      .get<Restaurant[]>('http://localhost:5000/api/restaurants')
+      .subscribe({
+        next: data => {
+          this.restaurants = data.map(this.restaurantAdapter);
+          this.restaurantsUpdated.next([...this.restaurants]);
+          // Store restaurants in sessionStorage
+          sessionStorage.setItem(
+            'restaurants',
+            JSON.stringify(this.restaurants)
+          );
+        },
+        error: error => {
+          console.error('Error fetching restaurants:', error);
+        },
+      });
 
     // Return the restaurants array (may be empty at this point)
     return this.restaurants;
@@ -55,7 +59,7 @@ export class RestaurantService {
       icon_url: data.icon,
       geometry: {
         coordinates: [data.location.lng, data.location.lat],
-      }
+      },
     };
   }
 
