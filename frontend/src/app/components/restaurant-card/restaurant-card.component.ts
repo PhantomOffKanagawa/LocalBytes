@@ -1,12 +1,10 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { NgFor, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { DetailsComponent } from '@components/details/details.component';
 import { Restaurant } from '@models/restaurant';
 import { MapInteractionService } from '@services/map-interaction.service';
 
@@ -27,10 +25,6 @@ export class RestaurantCardComponent {
   // Input property to receive restaurant data
   @Input()
   restaurant: Restaurant = {} as Restaurant;
-
-  // Variable to handle opening the dialog
-  // @Output()
-  // viewDetails = new EventEmitter<void>();
 
   constructor(private mapInteractionService: MapInteractionService) {}
 

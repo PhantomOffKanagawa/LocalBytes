@@ -49,6 +49,7 @@ export class RestaurantService {
   }
 
   // For rapid development, use an adapter to convert the API response to the Restaurant model
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   restaurantAdapter(data: any): Restaurant {
     return {
       id: data._id,
