@@ -27,7 +27,6 @@ const commentController = require("../controllers/commentController");
  * @apiSuccessExample {json} Success-Response:
  *    {
  *      "body": "This restaurant is amazing!",
- *      "datetime": "2025-05-06T23:32:13.958Z",
  *      "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
  *      "comment_id": 598664,
  *      "_id": "681a9bfd54e9712a49f38e30",
@@ -68,7 +67,6 @@ router.post("/", commentController.createComment);
  *    [
  *      {
  *        "body": "This restaurant is amazing!",
- *        "datetime": "2025-05-06T23:32:13.958Z",
  *        "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
  *        "comment_id": 598664,
  *        "_id": "681a9bfd54e9712a49f38e30",

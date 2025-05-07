@@ -51,9 +51,9 @@ const getRatingsByPlaceId = async (req, res) => {
 
 // Create a new rating
 const createRating = async (req, res) => {
-  try {
-    console.log("Creating rating:", req.body);
-    const { rating, place_id, token } = req.body;
+    try {
+      console.log("Creating rating:", req.body);
+      const { rating, place_id, token } = req.body;
 
     if (!rating || !place_id || !token) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -83,17 +83,42 @@ const createRating = async (req, res) => {
 
 // Update a rating
 const updateRating = async (req, res) => {
-  throw new Error("Not implemented yet");
-};
+  try {
+    console.log("Updating rating:", req.body);
+    const { rating, place_id, token } = req.body;
 
-// Delete a rating
-const deleteRating = async (req, res) => {
-  throw new Error("Not implemented yet");
+    if (!rating || !place_id || !token) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const uuid = getUserUuidFromToken(token);
+
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const updatedRating = await Rating.findOneAndUpdate(
+      { place_id, uuid },
+      { 
+        rating,
+        datetime: new Date()
+      },
+      { 
+        new: true,
+        upsert: true
+      }
+    );
+
+    res.status(200).json(updatedRating);
+  } catch (err) {
+    console.error("Error updating rating:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 module.exports = {
   getRatingsByPlaceId,
   createRating,
   updateRating,
-  deleteRating,
 };

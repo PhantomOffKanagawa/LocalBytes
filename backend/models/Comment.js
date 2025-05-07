@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema(
   {
     body: { type: String, required: true },
-    datetime: { type: Date, default: Date.now },
     place_id: { type: String, required: true },
     // Set select to false as by default we don't want to expose the uuid token
     uuid: { type: String, required: true, select: false },

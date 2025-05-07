@@ -24,15 +24,13 @@ const ratingController = require("../controllers/ratingController");
  * @apiSuccessExample {json} Success-Response:
  *    [
  *      {
- *        "rating": 5.0,
- *        "datetime": "2025-05-06T23:32:13.958Z",
- *        "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
- *        "_id": "681a9bfd54e9712a49f38e30",
- *        "createdAt": "2025-05-06T23:32:13.965Z",
- *        "updatedAt": "2025-05-06T23:32:13.965Z",
- *        "__v": 0
+ *         "_id": "681bc21b9972f17507586c51",
+ *         "rating": 4.5,
+ *         "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *         "createdAt": "2025-05-07T20:27:07.819Z",
+ *         "updatedAt": "2025-05-07T20:27:07.819Z"
  *      }
- *    ]
+ *   ]
  */
 router.get("/place/:placeId", ratingController.getRatingsByPlaceId);
 
@@ -61,7 +59,6 @@ router.get("/place/:placeId", ratingController.getRatingsByPlaceId);
  * @apiSuccessExample {json} Success-Response:
  *    {
  *      "rating": 5.0,
- *      "datetime": "2025-05-06T23:32:13.958Z",
  *      "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
  *      "_id": "681a9bfd54e9712a49f38e30",
  *      "createdAt": "2025-05-06T23:32:13.965Z",
@@ -71,10 +68,38 @@ router.get("/place/:placeId", ratingController.getRatingsByPlaceId);
  */
 router.post("/", ratingController.createRating);
 
-// PUT update a rating
+/**
+ * @api {put} /api/ratings Update a new rating
+ * @apiName UpdateRating
+ * @apiGroup Rating
+ *
+ * @apiBody {Float} rating Rating of the restaurant
+ * @apiBody {String} place_id Google Place ID of the restaurant
+ * @apiBody {String} token User token
+ *
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "rating": 5.0,
+ *       "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *       "token": "user123_uuid"
+ *     }
+ *
+ * @apiSuccess {Object} review Created review
+ * @apiSuccess {String} review._id MongoDB id of the review
+ * @apiSuccess {Float} review.rating Rating of the review
+ * @apiSuccess {String} review.place_id Google Place ID of the restaurant
+ * @apiSuccess {Date} review.created_at Creation timestamp
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *   "_id": "681bc21b9972f17507586c51",
+ *   "rating": 4,
+ *   "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *   "createdAt": "2025-05-07T20:27:07.819Z",
+ *   "updatedAt": "2025-05-07T20:45:55.424Z",
+ *   "__v": 0
+ * }
+ */
 router.put("/", ratingController.updateRating);
-
-// DELETE delete a rating
-router.delete("/", ratingController.deleteRating);
 
 module.exports = router;
