@@ -11,7 +11,6 @@ import { StarComponent } from '@components/star/star.component';
 @Component({
   selector: 'app-restaurant-card',
   imports: [
-    NgFor,
     NgIf,
     MatCardModule,
     MatDividerModule,

@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CommentsService } from '@services/comments.service';
 import { FormsModule } from '@angular/forms';
+import { StarComponent } from '@components/star/star.component';
 
 @Component({
   selector: 'app-details',
@@ -22,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     FormsModule,
     MatListModule,
+    StarComponent,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.css',

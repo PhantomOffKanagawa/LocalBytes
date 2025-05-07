@@ -19,3 +19,22 @@
   overflow: hidden;
   pointer-events: none;
 }
+
+/* Animation for the rated stars */
+.star-rating.animated {
+  animation: floatDown 0.3s ease-in-out;
+}
+
+@keyframes floatDown {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

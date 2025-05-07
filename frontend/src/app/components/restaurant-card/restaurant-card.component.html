@@ -1,7 +1,7 @@
 <div
-  class="flex flex-col lg:flex-row h-full rounded-lg shadow-md overflow-hidden">
+  class="h-full bg-white flex flex-col lg:flex-row h-full rounded-lg shadow-md overflow-hidden">
   <!-- Image placeholder (left half) -->
-  <div class="lg:w-1/2 bg-gray-100 flex items-center justify-center">
+  <div class="lg:w-1/2 flex items-center justify-center">
     <img
       src="https://placehold.co/300x200"
       alt="Restaurant image"
@@ -10,16 +10,29 @@
   <!-- Content (right half) -->
   <div class="lg:w-1/2 flex flex-col p-4 bg-white">
     <mat-card-header class="mb-2">
-      <h1 class="text-xl font-semibold text-gray-700">
-        <a
-          (click)="openDialog()"
-          (keydown.enter)="openDialog()"
-          tabindex="0"
-          role="button"
-          class="cursor-pointer hover:text-gray-500 transition-colors duration-200">
-          {{ restaurant.title }}
-        </a>
-      </h1>
+      <div class="flex justify-between w-full">
+        <h1 class="text-xl font-semibold text-gray-700">
+          <a
+            (click)="openDialog()"
+            (keydown.enter)="openDialog()"
+            tabindex="0"
+            role="button"
+            class="cursor-pointer hover:text-gray-500 transition-colors duration-200">
+            {{ restaurant.title }}
+          </a>
+        </h1>
+
+        <div>
+          <button
+            mat-icon-button
+            color="primary"
+            (click)="zoomToRestaurant()"
+            matTooltip="Show on map"
+            style="margin-top: -0.75rem;">
+            <mat-icon>place</mat-icon>
+          </button>
+        </div>
+      </div>
     </mat-card-header>
     <mat-divider class="mb-2"></mat-divider>
     <mat-card-content class="flex-1 flex flex-col justify-between">
@@ -37,61 +50,16 @@
           <a href="#" class="text-gray-600 hover:underline">Read more</a>
         </p>
       </div>
-      <div id="Stars">
-        <h2 class="text-lg font-medium text-gray-800">Rating</h2>
-        <div class="flex items-center space-x-1">
+      <div id="Stars" class="mt-4">
+        <h2 class="text-lg font-medium text-gray-800 mb-2">Rating</h2>
+        <div class="flex items-center space-x-1 mb-3">
           <!-- Star Rating -->
-          <ng-container *ngFor="let star of [1, 2, 3, 4, 5]">
-            <!-- Full Star -->
-            <svg
-              *ngIf="restaurant.rating >= star"
-              class="text-yellow-400 w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20">
-              <polygon
-                points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99" />
-            </svg>
-            <!-- Half Star -->
-            <svg
-              *ngIf="
-                restaurant.rating >= star - 0.5 && restaurant.rating < star
-              "
-              class="text-yellow-400 w-5 h-5"
-              viewBox="0 0 20 20">
-              <defs>
-                <linearGradient id="half-grad-{{ star }}">
-                  <stop offset="50%" stop-color="currentColor" />
-                  <stop offset="50%" stop-color="#D1D5DB" />
-                </linearGradient>
-              </defs>
-              <polygon
-                points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99"
-                [attr.fill]="'url(#half-grad-' + star + ')'" />
-            </svg>
-            <!-- Empty Star -->
-            <svg
-              *ngIf="restaurant.rating < star - 0.5"
-              class="text-gray-300 w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20">
-              <polygon
-                points="10,1 12.59,6.99 19,7.64 14,12.26 15.18,18.51 10,15.27 4.82,18.51 6,12.26 1,7.64 7.41,6.99" />
-            </svg>
-          </ng-container>
+          <app-star [fixedRating]="restaurant.rating"></app-star>
         </div>
-      </div>
-      <div class="flex justify-end mt-2">
-        <button
-          mat-icon-button
-          color="primary"
-          (click)="zoomToRestaurant()"
-          matTooltip="Show on map">
-          <mat-icon>place</mat-icon>
-        </button>
-      </div>
-      <div>
-        <p class="pl-4">Rate your Experience:</p>
-        <app-star [elementID]="restaurant.id"></app-star>
+        <!-- <p class="text-sm text-gray-600 mb-2">Rate your Experience:</p>
+        <div class="ml-2">
+          <app-star [elementID]="restaurant.id"></app-star>
+        </div> -->
       </div>
     </mat-card-content>
   </div>
