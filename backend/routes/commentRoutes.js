@@ -78,8 +78,41 @@ router.post("/", commentController.createComment);
  */
 router.get("/place/:placeId", commentController.getCommentsByPlaceId);
 
-// PUT update a comment
-router.put("/:commentId", commentController.updateComment);
+/**
+ * @api {put} /api/comments/ Update a comment
+ * @apiName UpdateComment
+ * @apiGroup Comment
+ *
+ * @apiBody {String} body Content of the comment
+ * @apiBody {String} place_id Google Place ID of the restaurant
+ * @apiBody {String} _id MongoDB id of the comment
+ * @apiBody {String} token User token
+ *
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "body": "This restaurant is amazing!",
+ *       "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *       "_id": "681a9bfd54e9712a49f38e30",
+ *       "token": "user123_uuid"
+ *     }
+ *
+ * @apiSuccess {Object} review Created review
+ * @apiSuccess {String} review._id MongoDB id of the review
+ * @apiSuccess {String} review.body Content of the review
+ * @apiSuccess {String} review.place_id Google Place ID of the restaurant
+ * @apiSuccess {Date} review.created_at Creation timestamp
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *   "_id": "681bc21b9972f17507586c51",
+ *   "body": "This restaurant is amazing!",
+ *   "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *   "createdAt": "2025-05-07T20:27:07.819Z",
+ *   "updatedAt": "2025-05-07T20:45:55.424Z",
+ *   "__v": 0
+ * }
+ */
+router.put("/", commentController.updateComment);
 
 // DELETE delete a comment
 router.delete("/:commentId", commentController.deleteComment);

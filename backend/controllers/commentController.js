@@ -46,6 +46,7 @@ const createComment = async (req, res) => {
     });
 
     const savedComment = await newComment.save();
+    delete savedComment.uuid; // Remove uuid from the response
     res.status(201).json(savedComment);
   } catch (err) {
     console.error("Error creating comment:", err.message);
@@ -111,7 +112,35 @@ const getCommentsByPlaceId = async (req, res) => {
 
 // Update a comment
 const updateComment = async (req, res) => {
-  throw new Error("Not implemented yet");
+  try {
+    console.log("Updating comment:", req.body);
+    const { body, place_id, token, _id } = req.body;
+
+    if (!body || !place_id || !token || !_id) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const uuid = getUserUuidFromToken(token);
+
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // Either update the existing comment or create a new one if it doesn't exist
+    const updatedComment = await Comment.findOneAndUpdate(
+      { place_id, _id },
+      {
+        body,
+        datetime: new Date()
+      }
+    );
+
+    res.status(200).json(updatedComment);
+  } catch (err) {
+    console.error("Error updating comment:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // Delete a comment

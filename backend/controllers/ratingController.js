@@ -98,6 +98,8 @@ const updateRating = async (req, res) => {
       return res.status(401).json({ error: "Invalid token" });
     }
 
+    // Either update the existing rating or create a new one if it doesn't exist
+    // The unique index on place_id and uuid ensures that only one rating per user per place exists
     const updatedRating = await Rating.findOneAndUpdate(
       { place_id, uuid },
       { 
@@ -105,6 +107,7 @@ const updateRating = async (req, res) => {
         datetime: new Date()
       },
       { 
+        // Is new necessary?
         new: true,
         upsert: true
       }
