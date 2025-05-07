@@ -5,20 +5,21 @@ import { RestaurantService } from '@services/restaurant.service';
 import { MapInteractionService } from '@services/map-interaction.service';
 import { Subscription } from 'rxjs';
 
-import { NgFor } from '@angular/common';
+import { NgFor,NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialog } from '@angular/material/dialog';
 import { DetailsComponent } from '@components/details/details.component';
 import { RestaurantCardComponent } from '@components/restaurant-card/restaurant-card.component';
-
+import { Input } from '@angular/core';
 @Component({
   selector: 'app-list-view',
-  imports: [NgFor, MatCardModule, MatDividerModule, RestaurantCardComponent],
+  imports: [NgFor, NgIf, MatCardModule, MatDividerModule, RestaurantCardComponent],
   templateUrl: './list-view.component.html',
   styleUrl: './list-view.component.css',
 })
 export class ListViewComponent implements OnInit, OnDestroy {
+  @Input() standalone:boolean = true;
   readonly dialog = inject(MatDialog);
 
   restaurants: Restaurant[] = [];
