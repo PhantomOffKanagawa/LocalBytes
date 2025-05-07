@@ -26,7 +26,6 @@ const commentController = require("../controllers/commentController");
  * @apiSuccess {Date} comment.created_at Creation timestamp
  *
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 201 Created
  *    {
  *      "body": "This restaurant is amazing!",
  *      "datetime": "2025-05-06T23:32:13.958Z",
@@ -61,7 +60,6 @@ router.post("/", commentController.createComment);
  * @apiSuccess {Date} comments.created_at Creation timestamp
  *
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 201 Created
  *    [
  *      {
  *        "body": "This restaurant is amazing!",

@@ -13,7 +13,12 @@ connectDB();
 
 // Configure app middleware
 // Add morgan for logging requests
-app.use(morgan("dev"));
+app.use(
+  morgan("dev", {
+    skip: (req, res) => req.originalUrl.startsWith("/api-docs/"),
+  }),
+);
+
 // Parse incoming requests with JSON payloads
 app.use(express.json());
 // Parse incoming requests with URL-encoded payloads
@@ -28,10 +33,12 @@ app.use(
 // Import routes
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 // Set Routes
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/auth", authRoutes);
 
 // Serve API documentation
 app.use("/api-docs", express.static(path.join(__dirname, "docs")));

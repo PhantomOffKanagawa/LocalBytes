@@ -10,7 +10,6 @@ const restaurantController = require("../controllers/restaurantController");
  * @apiSuccess {Object[]} restaurants List of restaurant objects
  *
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200 OK
  *     [
  *       {
  *         "location": {
@@ -64,7 +63,6 @@ router.get("/", restaurantController.getRestaurants);
  * @apiSuccess {Object[]} restaurants Newly added restaurants
  *
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 200 OK
  *     [
  *       {
  *         "location": {
