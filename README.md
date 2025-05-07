@@ -125,6 +125,15 @@ npm run dev
 ```
 The application will be available at http://localhost:4200
 
+#### Updating the Docs
+
+```bash
+cd backend
+npx nodemon --watch routes --ext js --exec "npm run docs"
+```
+
+Optional command to live update the docs when changes are made to the routes.
+
 ## Development Team
 
 - [Harrison Surma](https://github.com/PhantomOffKanagawa)
