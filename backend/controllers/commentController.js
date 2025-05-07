@@ -33,14 +33,15 @@ const createComment = async (req, res) => {
 
     const uuid = getUserUuidFromToken(token);
 
-    // TODO: Use actual UUID generation instead of Math.random()
-    const comment_id = Math.floor(Math.random() * 1_000_000); // Simple unique ID for now
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
 
     const newComment = new Comment({
       body,
       place_id,
       uuid,
-      comment_id,
       datetime: new Date(),
     });
 

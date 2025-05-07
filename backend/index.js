@@ -33,11 +33,13 @@ app.use(
 // Import routes
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const commentRoutes = require("./routes/commentRoutes");
+const ratingRoutes = require("./routes/ratingRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 // Set Routes
 app.use("/api/restaurants", restaurantRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/ratings", ratingRoutes);
 app.use("/api/auth", authRoutes);
 
 // Serve API documentation
