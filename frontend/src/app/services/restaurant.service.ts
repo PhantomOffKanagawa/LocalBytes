@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Restaurant } from '@models/restaurant';
 import { Subject } from 'rxjs';
+import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { Subject } from 'rxjs';
 export class RestaurantService {
   private restaurants: Restaurant[] = [];
   private restaurantsUpdated = new Subject<Restaurant[]>();
+  private apiUrl = `${environment.apiUrl}/restaurants`;
   lat: number = 38.951561;
   lng: number = -92.328636;
 
@@ -28,7 +30,7 @@ export class RestaurantService {
     console.log('Fetching restaurants from API...');
     // Fetch restaurants from the API and convert them to the Restaurant model
     this.http
-      .get<Restaurant[]>('http://localhost:5000/api/restaurants')
+      .get<Restaurant[]>(this.apiUrl)
       .subscribe({
         next: data => {
           this.restaurants = data.map(this.restaurantAdapter);

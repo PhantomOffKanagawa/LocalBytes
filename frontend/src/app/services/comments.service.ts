@@ -4,12 +4,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { Comment } from '@models/comment';
+import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentsService{
-  private apiUrl = 'http://localhost:5000/api/comments';
+  private apiUrl = `${environment.apiUrl}/comments`;
 
   // Add a BehaviorSubject to hold the comments
   private commentsSubject = new BehaviorSubject<Comment[]>([]);
