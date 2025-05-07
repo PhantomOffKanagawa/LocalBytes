@@ -112,14 +112,14 @@ backend/
 #### Backend Server
 ```bash
 cd backend
-npm run dev
+ng serve
 ```
 The API will run on http://localhost:5000
 
 #### Frontend Development Server
 ```bash
 cd frontend
-npm start
+npm run dev
 ```
 The application will be available at http://localhost:4200
 
