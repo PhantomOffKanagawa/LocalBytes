@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Restaurant } from '@models/restaurant';
 import { MapInteractionService } from '@services/map-interaction.service';
-
+import { StarComponent } from '@components/star/star.component';
 @Component({
   selector: 'app-restaurant-card',
   imports: [
@@ -17,6 +17,7 @@ import { MapInteractionService } from '@services/map-interaction.service';
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
+    StarComponent
   ],
   templateUrl: './restaurant-card.component.html',
   styleUrl: './restaurant-card.component.css',
