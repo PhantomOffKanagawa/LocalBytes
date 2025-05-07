@@ -9,20 +9,19 @@ const commentController = require("../controllers/commentController");
  *
  * @apiBody {String} body Content of the comment
  * @apiBody {String} place_id Google Place ID of the restaurant
- * @apiBody {String} uuid User ID
+ * @apiBody {String} token User token
  *
  * @apiParamExample {json} Request-Example:
  *     {
  *       "body": "This restaurant is amazing!",
  *       "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
- *       "uuid": "user123_uuid"
+ *       "token": "user123_uuid"
  *     }
  *
  * @apiSuccess {Object} comment Created comment
  * @apiSuccess {String} comment._id MongoDB id of the comment
  * @apiSuccess {String} comment.body Content of the comment
  * @apiSuccess {String} comment.place_id Google Place ID of the restaurant
- * @apiSuccess {String} comment.uuid User ID
  * @apiSuccess {Date} comment.created_at Creation timestamp
  *
  * @apiSuccessExample {json} Success-Response:
@@ -30,7 +29,6 @@ const commentController = require("../controllers/commentController");
  *      "body": "This restaurant is amazing!",
  *      "datetime": "2025-05-06T23:32:13.958Z",
  *      "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
- *      "uuid": "user123_uuid",
  *      "comment_id": 598664,
  *      "_id": "681a9bfd54e9712a49f38e30",
  *      "createdAt": "2025-05-06T23:32:13.965Z",
@@ -56,7 +54,6 @@ router.post("/", commentController.createComment);
  * @apiSuccess {String} comments._id MongoDB id of the comment
  * @apiSuccess {String} comments.body Content of the comment
  * @apiSuccess {String} comments.place_id Google Place ID of the restaurant
- * @apiSuccess {String} comments.uuid User ID
  * @apiSuccess {Date} comments.created_at Creation timestamp
  *
  * @apiSuccessExample {json} Success-Response:
@@ -65,7 +62,6 @@ router.post("/", commentController.createComment);
  *        "body": "This restaurant is amazing!",
  *        "datetime": "2025-05-06T23:32:13.958Z",
  *        "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
- *        "uuid": "user123_uuid",
  *        "comment_id": 598664,
  *        "_id": "681a9bfd54e9712a49f38e30",
  *        "createdAt": "2025-05-06T23:32:13.965Z",
