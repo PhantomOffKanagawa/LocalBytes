@@ -145,7 +145,32 @@ const updateComment = async (req, res) => {
 
 // Delete a comment
 const deleteComment = async (req, res) => {
-  throw new Error("Not implemented yet");
+  try {
+    console.log("Deleting comment:", req.body);
+    const { _id, token } = req.body;
+
+    if (!_id || !token) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const uuid = getUserUuidFromToken(token);
+
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const deletedComment = await Comment.findOneAndDelete({ _id, uuid });
+
+    if (!deletedComment) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting comment:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 module.exports = {

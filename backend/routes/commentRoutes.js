@@ -114,7 +114,31 @@ router.get("/place/:placeId", commentController.getCommentsByPlaceId);
  */
 router.put("/", commentController.updateComment);
 
-// DELETE delete a comment
-router.delete("/:commentId", commentController.deleteComment);
+/**
+ * @api {delete} /api/comments/ Delete a comment
+ * @apiName DeleteComment
+ * @apiGroup Comment
+ *
+ * @apiBody {String} _id MongoDB id of the comment
+ * @apiBody {String} token User token
+ *
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       "_id": "681a9bfd54e9712a49f38e30",
+ *       "token": "user123_uuid"
+ *     }
+ *
+ * @apiSuccess {Object} review Created review
+ * @apiSuccess {String} review._id MongoDB id of the review
+ * @apiSuccess {String} review.body Content of the review
+ * @apiSuccess {String} review.place_id Google Place ID of the restaurant
+ * @apiSuccess {Date} review.created_at Creation timestamp
+ *
+ * @apiSuccessExample {json} Success-Response:
+ * {
+ *   "message": "Comment deleted successfully"
+ * }
+ */
+router.delete("/", commentController.deleteComment);
 
 module.exports = router;
