@@ -1,0 +1,13 @@
+<div class="star-rating m-3">
+  <ng-container *ngFor="let star of stars; let i = index">
+    <span
+      class="star"
+      [class.filled]="(i + 1) <= floored()"
+      [class.half]="(hovered || rating) > i && (hovered || rating) < i + 1"
+      (mousemove)="onMouseMove($event, i)"
+      (mouseleave)="onHover(0)"
+      (click)="rate(getStarValue($event, i))"
+      style="cursor: pointer; font-size: 2rem;"
+      >&#9733;</span>
+  </ng-container>
+</div>
