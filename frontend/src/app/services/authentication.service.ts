@@ -44,6 +44,11 @@ export class AuthenticationService {
     );
   }
 
+  getToken(): string | null {
+    // Return the token if it exists, otherwise return null
+    return this.token;
+  }
+
   // Verify the token with the server
   verifyToken(): void {
     // Check if the token is available before making the request

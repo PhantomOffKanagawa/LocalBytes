@@ -40,14 +40,21 @@ router.post("/", commentController.createComment);
 
 /**
  * @api {get} /api/comments/place/:placeId Get comments for a specific restaurant by place_id
+ * @apiDescription Get all comments for a specific restaurant using its Google Place ID. Includes owner to determine if the user is the owner of the comment if authorization header is provided.
  * @apiName GetCommentsByPlaceId
  * @apiGroup Comment
  *
  * @apiParam {String} placeId Google Place ID of the restaurant
+ * @apiHeader {String} [Authorization] Optional Bearer token ("Bearer <token>")
  *
  * @apiParamExample {json} Request-Example:
  *     {
  *       "placeId": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ"
+ *     }
+ *
+ * @apiHeaderExample {json} Header-Example:
+ *     {
+ *       "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *     }
  *
  * @apiSuccess {Object[]} comments List of comments for the restaurant
@@ -55,6 +62,7 @@ router.post("/", commentController.createComment);
  * @apiSuccess {String} comments.body Content of the comment
  * @apiSuccess {String} comments.place_id Google Place ID of the restaurant
  * @apiSuccess {Date} comments.created_at Creation timestamp
+ * @apiSuccess {Boolean\|undefined} comments.owner Indicates if the user is the owner of the comment (if token is provided)
  *
  * @apiSuccessExample {json} Success-Response:
  *    [

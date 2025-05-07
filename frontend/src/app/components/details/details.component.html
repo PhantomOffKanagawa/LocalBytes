@@ -74,12 +74,25 @@
           <div
             *ngFor="let comment of restaurant.comments"
             class="bg-gray-100 rounded-lg px-5 py-4">
-            <p class="text-gray-700">{{ comment }}</p>
+            <p class="text-gray-700 {{comment.owner ? 'font-bold' : ''}}">{{ comment.body }}</p>
           </div>
         </div>
         <ng-template #noComments>
           <p class="italic text-gray-400">No comments yet.</p>
         </ng-template>
+        <div class="mt-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Add a Comment</h3>
+          <textarea
+            [(ngModel)]="newCommentBody"
+            rows="3"
+            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+            placeholder="Write your comment here..."></textarea>
+          <button
+            (click)="addComment()"
+            class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   </div>
