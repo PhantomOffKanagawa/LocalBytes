@@ -4,8 +4,8 @@ const { JWT_SECRET } = require("../utils/config");
 
 // Helper function to get user uuid from token
 const getUserUuidFromToken = (token) => {
-    // Check if token is provided and is a string
-  if (!token || typeof token !== 'string') {
+  // Check if token is provided and is a string
+  if (!token || typeof token !== "string") {
     console.error("Token is missing or invalid");
     return null;
   }
@@ -54,55 +54,58 @@ const createComment = async (req, res) => {
 
 // Get comments for a specific restaurant
 const getCommentsByPlaceId = async (req, res) => {
-    try {
-        // Extract placeId from the request parameters
-        const { placeId } = req.params;
+  try {
+    // Extract placeId from the request parameters
+    const { placeId } = req.params;
 
-        // Extract the token from the request headers
-        // The token is expected to be in the format "Bearer <token>"
-        const { authorization } = req.headers;
-        const token = authorization && authorization.split(" ")[1];
+    // Extract the token from the request headers
+    // The token is expected to be in the format "Bearer <token>"
+    const { authorization } = req.headers;
+    const token = authorization && authorization.split(" ")[1];
 
-        // Check if placeId is provided
-        if (!placeId) {
-            return res.status(400).json({ error: "Missing placeId" });
-        }
-
-        // Decode the token to get the user UUID
-        const uuid = getUserUuidFromToken(token);
-
-        // If token is not provided, fetch comments without uuid
-        // If token is provided, fetch comments with uuid, determine if owner, and remove uuid
-        let comments = [];
-
-        if (uuid) {
-            // If token is provided, fetch comments with uuid
-            comments = await Comment.find({ place_id: placeId }).sort({
-                datetime: -1,
-            }).select('+uuid').lean();
-
-            // Map comments to include owner status
-            comments = comments.map((comment) => {
-                // Check if the comment belongs to the user
-                const isOwner = comment.uuid === uuid;
-                // Remove uuid from the comment object
-                delete comment.uuid;
-                // Return the comment with owner status
-                return { ...comment, owner: isOwner };
-            });
-        } else {
-            // If no token is provided, return comments without uuid
-            comments = await Comment.find({ place_id: placeId }).sort({
-                datetime: -1,
-            });
-        }
-
-        // Return the comments
-        res.json(comments);
-    } catch (err) {
-        console.error("Error fetching comments:", err.message);
-        res.status(500).json({ error: err.message });
+    // Check if placeId is provided
+    if (!placeId) {
+      return res.status(400).json({ error: "Missing placeId" });
     }
+
+    // Decode the token to get the user UUID
+    const uuid = getUserUuidFromToken(token);
+
+    // If token is not provided, fetch comments without uuid
+    // If token is provided, fetch comments with uuid, determine if owner, and remove uuid
+    let comments = [];
+
+    if (uuid) {
+      // If token is provided, fetch comments with uuid
+      comments = await Comment.find({ place_id: placeId })
+        .sort({
+          datetime: -1,
+        })
+        .select("+uuid")
+        .lean();
+
+      // Map comments to include owner status
+      comments = comments.map((comment) => {
+        // Check if the comment belongs to the user
+        const isOwner = comment.uuid === uuid;
+        // Remove uuid from the comment object
+        delete comment.uuid;
+        // Return the comment with owner status
+        return { ...comment, owner: isOwner };
+      });
+    } else {
+      // If no token is provided, return comments without uuid
+      comments = await Comment.find({ place_id: placeId }).sort({
+        datetime: -1,
+      });
+    }
+
+    // Return the comments
+    res.json(comments);
+  } catch (err) {
+    console.error("Error fetching comments:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // Update a comment
