@@ -38,10 +38,12 @@ router.get("/", (req, res) => {
  *     }
  *
  * @apiSuccess {String} message JWT token for the user
+ * @apiSuccess {Boolean} authenticated Whether the user is authenticated or not
  *
  * @apiSuccessExample {json} Success-Response:
  *    {
  *      "message": "Token is valid",
+ *      "authenticated": true
  *    }
  */
 router.post("/verify", (req, res) => {
@@ -52,9 +54,9 @@ router.post("/verify", (req, res) => {
   // Use the secret key to verify the token
   jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {
-      return res.status(401).json({ message: "Invalid token" });
+      return res.status(401).json({ message: "Invalid token", authenticated: false });
     }
-    res.json({ message: "Token is valid" });
+    res.json({ message: "Token is valid", authenticated: true });
   });
 });
 
