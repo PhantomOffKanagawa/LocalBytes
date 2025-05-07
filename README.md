@@ -57,19 +57,21 @@ frontend/
 > `npm run format` - to format the code    
 
 >[!TIP]
-> The api is documented with apidoc and is available by default at `http://localhost:5000/api-docs`. You can run the following command to generate the documentation:
+> The api is documented with apidoc and is available by default at `http://localhost:5000/api-docs`. You can run the following command to generate the documentation:   
 > `npm run docs` - to generate the documentation
 
 ```
 backend/
 ├── controllers/         # Methods for handling API requests from the frontend
+├── docs/                # Automatically generated API documentation
 ├── models/              # Mongoose models for MongoDB collections
 ├── routes/              # Definitions for API routes
 ├── services/            # Services for handling API requests to the outside
 ├── utils/               # Utility functions
 │   ├── config.js        # Handles environment variables
 |   ├── db.js            # Handles database connection
-|   ├── serverUtils.js   # Handles port normalization
+│   ├── helpers.js       # General helper functions
+│   ├── serverUtils.js   # Handles port normalization
 │   └── components/      # Reusable components (@components)
 ├── index.js             # Backend entry point
 └── package.json         # Backend package file
@@ -127,9 +129,5 @@ The application will be available at http://localhost:4200
 
 - [Harrison Surma](https://github.com/PhantomOffKanagawa)
 - [Sam Whitaker](https://github.com/swhita6)
-- [Tom Winterton]()
+- [Tom Winterton](https://github.com/TWintertonIV)
 - [Luke Deffenbaugh](https://github.com/Spidious)
-
-## License
-
-This project is licensed under the MIT License
