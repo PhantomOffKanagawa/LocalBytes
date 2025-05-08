@@ -4,10 +4,11 @@ import { CommentsService } from '@services/comments.service';
 import { NgForm, NgModel, FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-comments',
-  imports: [NgIf, NgFor, CommonModule, FormsModule],
+  imports: [NgIf, NgFor, CommonModule, FormsModule, MatIcon],
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css'
 })
@@ -23,7 +24,7 @@ export class CommentsComponent {
 
   ngOnInit(): void {
     this.commentService.comments$.subscribe((comments) => {
-      this.comments = comments;
+      this.comments = comments.reverse(); // Reverse the order of comments to show the latest first
     })
     this.commentService.getCommentsByPlaceId(this.restaurantId);
   }
@@ -66,7 +67,7 @@ export class CommentsComponent {
       next: (updatedComment) => {
         const index = this.comments.findIndex(c => c._id === comment_id)
         if(index !== -1) {
-          this.comments[index].body = updatedComment.body;
+          this.comments[index].body = this.editedBody;
         }
         this.cancelEdit();
       },

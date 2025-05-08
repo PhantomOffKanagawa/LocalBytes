@@ -10,14 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CommentsService } from '@services/comments.service';
 import { StarComponent } from '@components/star/star.component';
-import { FormsModule, NgForm } from '@angular/forms';
-import { Comment } from '@models/comment';
+import { FormsModule } from '@angular/forms';
 import { CommentsComponent } from '@components/comments/comments.component';
 
 @Component({
   selector: 'app-details',
   imports: [
-    NgFor,
     NgIf,
     MatCardModule,
     MatDividerModule,
