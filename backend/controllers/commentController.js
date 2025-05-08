@@ -36,6 +36,9 @@ const createComment = async (req, res) => {
     // TODO: Use actual UUID generation instead of Math.random()
     const comment_id = Math.floor(Math.random() * 1_000_000); // Simple unique ID for now
 
+    console.log("Creating comment with token:", token);
+    console.log("Decoded UUID:", uuid);
+
     const newComment = new Comment({
       body,
       place_id,
@@ -45,6 +48,7 @@ const createComment = async (req, res) => {
     });
 
     const savedComment = await newComment.save();
+    console.log("Saved comment:", savedComment);
     res.status(201).json(savedComment);
   } catch (err) {
     console.error("Error creating comment:", err.message);
@@ -110,12 +114,49 @@ const getCommentsByPlaceId = async (req, res) => {
 
 // Update a comment
 const updateComment = async (req, res) => {
-  throw new Error("Not implemented yet");
+  try {
+    const { id } = req.params;
+    const { newBody, token } = req.body;
+
+    const uuid = getUserUuidFromToken(token);
+    if (!uuid) return res.status(401).json({ error: "Invalid token" });
+
+    const comment = await Comment.findById(id).select('+uuid');
+
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    if (comment.uuid !== uuid) return res.status(403).json({ error: "Not your comment" });
+
+    comment.body = newBody;
+    const updatedComment = await comment.save();
+    res.json(updatedComment);
+    console.log('Returning updated comment:', updatedComment);
+
+
+  } catch (err) {
+    console.error("Error updating comment:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // Delete a comment
 const deleteComment = async (req, res) => {
-  throw new Error("Not implemented yet");
+  try {
+    const { id } = req.params;
+    const { token } = req.body;
+
+    const uuid = getUserUuidFromToken(token);
+    if (!uuid) return res.status(401).json({ error: "Invalid token" });
+
+    const comment = await Comment.findById(req.params.id).select('+uuid');
+
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
+    if (comment.uuid !== uuid) return res.status(403).json({ error: "Not your comment" });
+
+    await comment.deleteOne();
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 module.exports = {

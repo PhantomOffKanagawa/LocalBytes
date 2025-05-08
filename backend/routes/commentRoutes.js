@@ -81,9 +81,12 @@ router.post("/", commentController.createComment);
 router.get("/place/:placeId", commentController.getCommentsByPlaceId);
 
 // PUT update a comment
-router.put("/:commentId", commentController.updateComment);
+// router.put("/:commentId", commentController.updateComment);
+
+router.put("/:id", commentController.updateComment);
+
 
 // DELETE delete a comment
-router.delete("/:commentId", commentController.deleteComment);
+router.delete("/:id", commentController.deleteComment);
 
 module.exports = router;
