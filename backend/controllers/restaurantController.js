@@ -25,6 +25,7 @@ const fetchAndSaveRestaurants = async (req, res) => {
     radius = 8000,
     query = "restaurant",
   } = req.query;
+  
   const apiKey = config.GMAPS_API_KEY;
 
   if (!apiKey) {

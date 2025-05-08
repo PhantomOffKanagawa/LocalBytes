@@ -7,7 +7,8 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "format": "prettier --write .",
-    "docs": "apidoc -i routes/ -o docs/"
+    "docs": "apidoc -i routes/ -o docs/",
+    "seed": "node seed.js"
   },
   "author": "",
   "license": "ISC",
