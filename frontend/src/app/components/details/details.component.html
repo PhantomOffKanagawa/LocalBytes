@@ -64,8 +64,9 @@
       </div>
     </div>
 
+    <app-comments *ngIf="restaurant" [restaurantId]="restaurant.id.toString()"></app-comments>
     <!-- Comments Section -->
-    <div class="bg-white rounded-xl shadow-lg overflow-auto">
+    <!-- <div class="bg-white rounded-xl shadow-lg overflow-auto">
       <div class="p-8">
         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Comments</h2>
         <div
@@ -74,7 +75,41 @@
           <div
             *ngFor="let comment of restaurant.comments"
             class="bg-gray-100 rounded-lg px-5 py-4">
-            <p class="text-gray-700 {{comment.owner ? 'font-bold' : ''}}">{{ comment.body }}</p>
+            <ng-container *ngIf="editingComment?._id === comment._id; else viewComment">
+              <form #editForm="ngForm" (ngSubmit)="saveEditedComment(comment._id!, editForm)">
+              <textarea
+                name="editedBody"
+                [(ngModel)]="editedBody"
+                required
+                class="w-full p-2 border border-gray-300 rounded-lg mb-2"
+                rows="3"
+                placeholder="Edit your comment"
+              ></textarea>
+              <div class="flex gap-2">
+                <button
+                  class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                  type="submit"
+                  (click)="saveEditedComment(comment._id, editForm)">
+                  Save
+                </button>
+                <button
+                type="button"
+                  class="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                  (click)="cancelEdit()">
+                  Cancel
+                </button>
+              </div>
+              </form>
+            </ng-container> 
+
+            <ng-template #viewComment>
+              <p class="text-gray-700 {{comment.owner ? 'font-bold' : ''}}">{{ comment.body }}</p>
+              <button *ngIf="comment.owner" class="mt-2 text-sm text-blue-600 hover:underline"
+              (click) = "startEdit(comment)">Edit</button>
+              <br>
+              <button *ngIf="comment.owner" class="mt-2 text-sm text-red-600 hover:underline"
+              (click)="confirmDelete(comment._id)">Delete</button>
+            </ng-template>
           </div>
         </div>
         <ng-template #noComments>
@@ -94,6 +129,6 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </main>
