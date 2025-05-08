@@ -25,7 +25,6 @@ const createComment = async (req, res) => {
       body,
       place_id,
       uuid,
-      datetime: new Date(),
     });
 
     const savedComment = await newComment.save();
@@ -114,10 +113,9 @@ const updateComment = async (req, res) => {
 
     // Either update the existing comment or create a new one if it doesn't exist
     const updatedComment = await Comment.findOneAndUpdate(
-      { place_id, _id },
+      { _id: id },
       {
         body: newBody,
-        datetime: new Date()
       }
     );
 

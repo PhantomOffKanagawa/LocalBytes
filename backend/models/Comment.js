@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema(
   {
+    comment_id: { type: String, unique: true, default: () => new mongoose.Types.ObjectId().toString() },
     body: { type: String, required: true },
     place_id: { type: String, required: true },
     // Set select to false as by default we don't want to expose the uuid token

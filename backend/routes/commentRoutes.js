@@ -79,7 +79,7 @@ router.post("/", commentController.createComment);
 router.get("/place/:placeId", commentController.getCommentsByPlaceId);
 
 /**
- * @api {put} /api/comments/ Update a comment
+ * @api {put} /api/comments/:id Update a comment
  * @apiName UpdateComment
  * @apiGroup Comment
  *
@@ -116,7 +116,7 @@ router.get("/place/:placeId", commentController.getCommentsByPlaceId);
 router.put("/:id", commentController.updateComment);
 
 /**
- * @api {delete} /api/comments/ Delete a comment
+ * @api {delete} /api/comments/:id Delete a comment
  * @apiName DeleteComment
  * @apiGroup Comment
  *
