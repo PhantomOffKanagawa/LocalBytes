@@ -25,5 +25,7 @@ export class HeaderComponent implements OnInit {
 
   checkVerification(): void {
     this.authService.verifyToken(); // Verify token on click
+    console.log('Token verification triggered'); // Log verification trigger
+    console.log('Token:', this.authService.getToken()); // Log current token
   }
 }

@@ -7,16 +7,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Restaurant } from '@models/restaurant';
 import { MapInteractionService } from '@services/map-interaction.service';
-
+import { StarComponent } from '@components/star/star.component';
 @Component({
   selector: 'app-restaurant-card',
   imports: [
-    NgFor,
     NgIf,
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
+    StarComponent
   ],
   templateUrl: './restaurant-card.component.html',
   styleUrl: './restaurant-card.component.css',

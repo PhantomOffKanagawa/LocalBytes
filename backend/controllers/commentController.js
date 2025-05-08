@@ -1,25 +1,5 @@
 const Comment = require("../models/Comment");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../utils/config");
-
-// Helper function to get user uuid from token
-const getUserUuidFromToken = (token) => {
-  // Check if token is provided and is a string
-  if (!token || typeof token !== "string") {
-    console.error("Token is missing or invalid");
-    return null;
-  }
-
-  try {
-    // Decode the token using the JWT secret
-    const decoded = jwt.verify(token, JWT_SECRET);
-    // Return the uuid from the decoded token
-    return decoded.uuid;
-  } catch (err) {
-    console.error("Error decoding token:", err.message);
-    return null;
-  }
-};
+const { getUserUuidFromToken } = require("../utils/helpers");
 
 // Create a new comment
 const createComment = async (req, res) => {
@@ -33,18 +13,20 @@ const createComment = async (req, res) => {
 
     const uuid = getUserUuidFromToken(token);
 
-    // TODO: Use actual UUID generation instead of Math.random()
-    const comment_id = Math.floor(Math.random() * 1_000_000); // Simple unique ID for now
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
 
     const newComment = new Comment({
       body,
       place_id,
       uuid,
-      comment_id,
       datetime: new Date(),
     });
 
     const savedComment = await newComment.save();
+    delete savedComment.uuid; // Remove uuid from the response
     res.status(201).json(savedComment);
   } catch (err) {
     console.error("Error creating comment:", err.message);
@@ -110,12 +92,65 @@ const getCommentsByPlaceId = async (req, res) => {
 
 // Update a comment
 const updateComment = async (req, res) => {
-  throw new Error("Not implemented yet");
+  try {
+    console.log("Updating comment:", req.body);
+    const { body, place_id, token, _id } = req.body;
+
+    if (!body || !place_id || !token || !_id) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const uuid = getUserUuidFromToken(token);
+
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    // Either update the existing comment or create a new one if it doesn't exist
+    const updatedComment = await Comment.findOneAndUpdate(
+      { place_id, _id },
+      {
+        body,
+        datetime: new Date()
+      }
+    );
+
+    res.status(200).json(updatedComment);
+  } catch (err) {
+    console.error("Error updating comment:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 // Delete a comment
 const deleteComment = async (req, res) => {
-  throw new Error("Not implemented yet");
+  try {
+    console.log("Deleting comment:", req.body);
+    const { _id, token } = req.body;
+
+    if (!_id || !token) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const uuid = getUserUuidFromToken(token);
+
+    // Check if the token is valid and contains a uuid
+    if (!uuid) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const deletedComment = await Comment.findOneAndDelete({ _id, uuid });
+
+    if (!deletedComment) {
+      return res.status(404).json({ error: "Comment not found" });
+    }
+
+    res.status(200).json({ message: "Comment deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting comment:", err.message);
+    res.status(500).json({ error: err.message });
+  }
 };
 
 module.exports = {

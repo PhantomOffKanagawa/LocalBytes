@@ -1,0 +1,28 @@
+<div class="star-container">
+  <!-- Main stars -->
+  <div class="star-rating ml-1">
+    <ng-container *ngFor="let star of stars; let i = index">
+      <span
+        class="star"
+        [class.filled]="(i + 1) <= floored(hovered || rated || rating)"
+        [class.half]="(hovered || rated || rating) > i && (hovered || rated || rating) < i + 1"
+        (mousemove)="onMouseMove($event, i)"
+        (mouseleave)="onHover(0)"
+        (click)="rate(getStarValue($event, i))"
+        style="cursor: pointer; font-size: 2rem;"
+        >&#9733;</span>
+    </ng-container>
+  </div>
+
+  <!-- Animated rating stars -->
+  <div class="star-rating animated ml-1 my-1" *ngIf="rated">
+    <ng-container *ngFor="let star of stars; let i = index">
+      <span
+        class="star"
+        [class.filled]="(i + 1) <= floored(rating)"
+        [class.half]="(rating) > i && (rating) < i + 1"
+        style="font-size: 1.5rem;"
+        >&#9733;</span>
+    </ng-container>
+  </div>
+</div>
