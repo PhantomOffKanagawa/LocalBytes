@@ -54,7 +54,7 @@
         <h2 class="text-lg font-medium text-gray-800 mb-2">Rating</h2>
         <div class="flex items-center space-x-1 mb-3">
           <!-- Star Rating -->
-          <app-star [fixedRating]="restaurant.rating"></app-star>
+          <app-star [elementID]="restaurant.id" [fixedRating]="restaurant.rating" [rated]="restaurant.user_rating ?? undefined"></app-star>
         </div>
         <!-- <p class="text-sm text-gray-600 mb-2">Rate your Experience:</p>
         <div class="ml-2">

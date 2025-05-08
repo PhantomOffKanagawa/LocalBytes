@@ -14,10 +14,10 @@ export class StarComponent {
   constructor(private authService: AuthenticationService, private HttpClient: HttpClient) {}
   @Input() elementID: number | undefined = undefined;
   @Input() fixedRating: number | undefined = undefined;
+  @Input() rated: number | undefined = undefined;
 
   stars = [1, 2, 3, 4, 5];
   rating = 0;
-  rated: number | undefined = undefined;
   hovered = 0;
 
   ngOnInit() {

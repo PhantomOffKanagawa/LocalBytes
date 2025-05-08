@@ -5,6 +5,7 @@ export interface Restaurant {
   title: string;
   description: string;
   rating: number;
+  user_rating?: number;
   comments: Comment[];
   icon_url?: string;
   image_url?: string;

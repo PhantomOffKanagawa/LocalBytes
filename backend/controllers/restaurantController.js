@@ -2,14 +2,51 @@ const Restaurant = require("../models/Restaurant");
 const { fetchAllRestaurants } = require("../services/googlePlacesService");
 const config = require("../utils/config");
 const axios = require("axios");
+const { getUserUuidFromToken } = require("../utils/helpers");
+const Rating = require("../models/Rating");
 
 // Get all restaurants
 const getRestaurants = async (req, res) => {
   try {
-    // Try to fetch all restaurants from the database
-    const restaurants = await Restaurant.find({});
-    // If found return them as JSON
-    res.json(restaurants);
+    // Check if request included an authorization header
+    // Extract the token from the request headers
+    // The token is expected to be in the format "Bearer <token>"
+    const { authorization } = req.headers;
+    const token = authorization && authorization.split(" ")[1];
+    
+    // Decode the token to get the user UUID
+    const uuid = getUserUuidFromToken(token);
+
+    if (uuid) {
+      // If token is provided, fetch restaurants and include rating by user
+      // First get all restaurants
+      const restaurants = await Restaurant.find({}).lean();
+      
+      // Get all ratings for this user
+      const ratings = await Rating.find({ uuid })
+        .select("+uuid");
+      
+      // Create a map of place_id to rating for faster lookup
+      const ratingsByPlaceId = Object.fromEntries(
+        ratings.map(r => [r.place_id, r.rating])
+      );
+
+      console.log("Ratings by place_id:", ratingsByPlaceId);
+      console.log("Restaurants:", restaurants[0]);
+      
+      // Combine restaurants with user ratings
+      const restaurantsWithRatings = restaurants.map(restaurant => ({
+        ...restaurant,
+        user_rating: ratingsByPlaceId[restaurant._id] || null
+      }));
+      
+      return res.json(restaurantsWithRatings);
+    } else {
+      // If token is not provided, fetch all restaurants
+      const restaurants = await Restaurant.find({});
+      // If found return them as JSON
+      return res.json(restaurants);
+    }
   } catch (err) {
     // If an error occurs, log it and return a 500 status with the error message
     console.error("Error fetching restaurants:", err.message);

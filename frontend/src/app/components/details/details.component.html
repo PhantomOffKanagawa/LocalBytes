@@ -23,7 +23,7 @@
             <span class="text-gray-700 font-medium">Rating:</span>
             <div class="flex items-center space-x-1">
               <!-- Star Rating -->
-              <app-star [fixedRating]="restaurant.rating"></app-star>
+              <app-star [elementID]="restaurant.id" [fixedRating]="restaurant.rating" [rated]="restaurant.user_rating ?? undefined"></app-star>
             </div>
             <span class="text-gray-600 text-sm ps-2"
               >({{ restaurant.rating.toPrecision(2) }})</span
