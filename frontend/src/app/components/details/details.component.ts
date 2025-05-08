@@ -9,13 +9,13 @@ import { Inject } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CommentsService } from '@services/comments.service';
-import { FormsModule } from '@angular/forms';
 import { StarComponent } from '@components/star/star.component';
+import { FormsModule } from '@angular/forms';
+import { CommentsComponent } from '@components/comments/comments.component';
 
 @Component({
   selector: 'app-details',
   imports: [
-    NgFor,
     NgIf,
     MatCardModule,
     MatDividerModule,
@@ -23,6 +23,7 @@ import { StarComponent } from '@components/star/star.component';
     MatIconModule,
     FormsModule,
     MatListModule,
+    CommentsComponent,
     StarComponent,
   ],
   templateUrl: './details.component.html',
@@ -34,8 +35,6 @@ export class DetailsComponent {
     this.dialogRef.close();
   }
   restaurant: Restaurant;
-  comments: Comment[] = []; // Array to hold comments
-  newCommentBody: string = ''; // New comment body
 
   // Injecting the CommentsService to manage comments
   constructor(
@@ -44,34 +43,13 @@ export class DetailsComponent {
   ) {
     this.restaurant = data.restaurant;
 
-    // Subscribe to the comments observable to get the latest comments
-    this.commentsService.comments$.subscribe((comments) => {
-      this.restaurant.comments = comments;
-      console.log('Comments updated:', this.restaurant.comments); // Log the updated comments
-    });
+    // // Subscribe to the comments observable to get the latest comments
+    // this.commentsService.comments$.subscribe((comments) => {
+    //   this.restaurant.comments = comments;
+    //   console.log('Comments updated:', this.restaurant.comments); // Log the updated comments
+    // });
 
-    // Fetch comments for the restaurant when the component is initialized
-    this.commentsService.getCommentsByPlaceId(this.restaurant.id.toString());
-  }
-
-  addComment(): void {
-    if (!this.newCommentBody.trim() || this.restaurant.id === undefined) {
-      console.error('Invalid comment or restaurant ID');
-      return; // Don't add empty comments
-    }
-
-    // Call the service to create a new comment
-    // and update the restaurant's comments array
-    this.commentsService.createComment(this.newCommentBody, this.restaurant.id.toString()).subscribe({
-      next: (comment) => {
-        // Add comment to start of the restaurant's comments array
-        // and by default make the creator the owner of the comment
-        this.restaurant.comments = [{...comment, owner: true}, ...this.restaurant.comments];
-        this.newCommentBody = ''; // Clear the input field
-      },
-      error: (error) => {
-        console.error('Error adding comment:', error);
-      }
-    });
+    // // Fetch comments for the restaurant when the component is initialized
+    // this.commentsService.getCommentsByPlaceId(this.restaurant.id.toString());
   }
 }

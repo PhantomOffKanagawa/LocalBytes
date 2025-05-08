@@ -35,6 +35,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
     console.log('openDialog', restaurant);
     const dialogRef = this.dialog.open(DetailsComponent, {
       width: '1000px',
+      panelClass: 'bg-gray-100',
       data: { restaurant },
     });
 

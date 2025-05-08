@@ -1,0 +1,3 @@
+::ng-deep .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: oklch(0.967 0.003 264.542);
+}

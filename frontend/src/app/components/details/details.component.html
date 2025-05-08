@@ -1,7 +1,7 @@
-<main class="bg-gray-100 py-12 flex justify-center" style="height: 80vh">
-  <div class="w-full max-w-3xl flex flex-col gap-8 p-4">
+<main class="py-6 flex justify-center items-center bg-gray-100" style="height: 80vh">
+  <div class="w-full max-w-3xl flex flex-col gap-8 p-4 bg-gray-100 h-full">
     <!-- Image at the top -->
-    <div class="relative rounded-xl overflow-hidden shadow-lg">
+    <div class="relative rounded-xl shadow-lg">
       <img
         src="https://placehold.co/600x300"
         alt="Restaurant image"
@@ -13,7 +13,7 @@
     </div>
 
     <!-- Card with description and details -->
-    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-white rounded-xl shadow-lg">
       <div class="p-8">
         <div class="flex items-center justify-between mb-6">
           <div class="flex items-center gap-4">
@@ -36,36 +36,6 @@
       </div>
     </div>
 
-    <!-- Comments Section -->
-    <div class="bg-white rounded-xl shadow-lg overflow-auto">
-      <div class="p-8">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-6">Comments</h2>
-        <div
-          *ngIf="restaurant.comments?.length; else noComments"
-          class="space-y-4">
-          <div
-            *ngFor="let comment of restaurant.comments"
-            class="bg-gray-100 rounded-lg px-5 py-4">
-            <p class="text-gray-700 {{comment.owner ? 'font-bold' : ''}}">{{ comment.body }}</p>
-          </div>
-        </div>
-        <ng-template #noComments>
-          <p class="italic text-gray-400">No comments yet.</p>
-        </ng-template>
-        <div class="mt-6">
-          <h3 class="text-lg font-semibold text-gray-800 mb-2">Add a Comment</h3>
-          <textarea
-            [(ngModel)]="newCommentBody"
-            rows="3"
-            class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-            placeholder="Write your comment here..."></textarea>
-          <button
-            (click)="addComment()"
-            class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
+    <app-comments *ngIf="restaurant" [restaurantId]="restaurant.id.toString()" class="pb-6"></app-comments>
   </div>
 </main>
