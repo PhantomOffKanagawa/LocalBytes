@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpXsrfTokenExtractor } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
@@ -45,4 +45,28 @@ export class CommentsService{
       }
     });
   }
+
+  updateComment(comment_id: string, newBody: string): Observable<Comment> {
+    const token = this.authService.getToken();
+      return this.http.put<Comment>(`${this.apiUrl}/${comment_id}`, {
+       newBody,
+       token,
+    })
+  }
+
+  deleteComment(commentId: string): Observable<void> {
+    const token = this.authService.getToken();
+    return this.http.request<void>('delete', `${this.apiUrl}/${commentId}`, {
+      body: { token },
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }).pipe(
+      tap(() => {
+        const current = this.commentsSubject.value;
+        const updated = current.filter(c => c._id !== commentId);
+        this.commentsSubject.next(updated);
+      })
+    );
+  }  
 }

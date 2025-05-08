@@ -1,0 +1,65 @@
+<div class="bg-white rounded-xl shadow-lg overflow-auto">
+    <div class="p-8">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-6">Comments</h2>
+      <div
+        *ngIf="comments?.length; else noComments"
+        class="space-y-4">
+        <div
+          *ngFor="let comment of comments"
+          class="bg-gray-100 rounded-lg px-5 py-4">
+          <!-- If editing a comment -->
+          <ng-container *ngIf="editingComment?._id === comment._id; else viewComment">
+            <form #editForm="ngForm" (ngSubmit)="saveEditedComment(comment._id!, editForm)">
+            <textarea
+              name="editedBody"
+              [(ngModel)]="editedBody"
+              required
+              class="w-full p-2 border border-gray-300 rounded-lg mb-2"
+              rows="3"
+              placeholder="Edit your comment"
+            ></textarea>
+            <div class="flex gap-2">
+              <button
+                class="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700"
+                type="submit"
+                (click)="saveEditedComment(comment._id, editForm)">
+                Save
+              </button>
+              <button
+              type="button"
+                class="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+                (click)="cancelEdit()">
+                Cancel
+              </button>
+            </div>
+            </form>
+          </ng-container> 
+
+          <ng-template #viewComment>
+            <p class="text-gray-700 {{comment.owner ? 'font-bold' : ''}}">{{ comment.body }}</p>
+            <button *ngIf="comment.owner" class="mt-2 text-sm text-blue-600 hover:underline"
+            (click) = "startEdit(comment)">Edit</button>
+            <br>
+            <button *ngIf="comment.owner" class="mt-2 text-sm text-red-600 hover:underline"
+            (click)="confirmDelete(comment._id)">Delete</button>
+          </ng-template>
+        </div>
+      </div>
+      <ng-template #noComments>
+        <p class="italic text-gray-400">No comments yet.</p>
+      </ng-template>
+      <div class="mt-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Add a Comment</h3>
+        <textarea
+          [(ngModel)]="newCommentBody"
+          rows="3"
+          class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
+          placeholder="Write your comment here..."></textarea>
+        <button
+          (click)="addComment()"
+          class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>

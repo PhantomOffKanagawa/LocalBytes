@@ -83,16 +83,17 @@ router.get("/place/:placeId", commentController.getCommentsByPlaceId);
  * @apiName UpdateComment
  * @apiGroup Comment
  *
+ * @apiParam {String} id MongoDB id of the comment
+ * 
  * @apiBody {String} body Content of the comment
  * @apiBody {String} place_id Google Place ID of the restaurant
- * @apiBody {String} _id MongoDB id of the comment
  * @apiBody {String} token User token
  *
  * @apiParamExample {json} Request-Example:
  *     {
  *       "body": "This restaurant is amazing!",
  *       "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
- *       "_id": "681a9bfd54e9712a49f38e30",
+ *       "id": "681a9bfd54e9712a49f38e30",
  *       "token": "user123_uuid"
  *     }
  *
@@ -112,19 +113,20 @@ router.get("/place/:placeId", commentController.getCommentsByPlaceId);
  *   "__v": 0
  * }
  */
-router.put("/", commentController.updateComment);
+router.put("/:id", commentController.updateComment);
 
 /**
  * @api {delete} /api/comments/ Delete a comment
  * @apiName DeleteComment
  * @apiGroup Comment
  *
- * @apiBody {String} _id MongoDB id of the comment
+ * @apiParam {String} id MongoDB id of the comment
+ *
  * @apiBody {String} token User token
  *
  * @apiParamExample {json} Request-Example:
  *     {
- *       "_id": "681a9bfd54e9712a49f38e30",
+ *       "id": "681a9bfd54e9712a49f38e30",
  *       "token": "user123_uuid"
  *     }
  *
@@ -139,6 +141,6 @@ router.put("/", commentController.updateComment);
  *   "message": "Comment deleted successfully"
  * }
  */
-router.delete("/", commentController.deleteComment);
+router.delete("/:id", commentController.deleteComment);
 
 module.exports = router;

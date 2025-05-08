@@ -18,6 +18,9 @@ const createComment = async (req, res) => {
       return res.status(401).json({ error: "Invalid token" });
     }
 
+    console.log("Creating comment with token:", token);
+    console.log("Decoded UUID:", uuid);
+
     const newComment = new Comment({
       body,
       place_id,
@@ -27,6 +30,7 @@ const createComment = async (req, res) => {
 
     const savedComment = await newComment.save();
     delete savedComment.uuid; // Remove uuid from the response
+    console.log("Saved comment:", savedComment);
     res.status(201).json(savedComment);
   } catch (err) {
     console.error("Error creating comment:", err.message);
@@ -94,9 +98,10 @@ const getCommentsByPlaceId = async (req, res) => {
 const updateComment = async (req, res) => {
   try {
     console.log("Updating comment:", req.body);
-    const { body, place_id, token, _id } = req.body;
+    const { id } = req.params;
+    const { newBody, token } = req.body;
 
-    if (!body || !place_id || !token || !_id) {
+    if (!newBody || !token || !id) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -111,7 +116,7 @@ const updateComment = async (req, res) => {
     const updatedComment = await Comment.findOneAndUpdate(
       { place_id, _id },
       {
-        body,
+        body: newBody,
         datetime: new Date()
       }
     );
@@ -127,9 +132,10 @@ const updateComment = async (req, res) => {
 const deleteComment = async (req, res) => {
   try {
     console.log("Deleting comment:", req.body);
-    const { _id, token } = req.body;
+    const { id } = req.params;
+    const { token } = req.body;
 
-    if (!_id || !token) {
+    if (!id || !token) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
@@ -140,13 +146,13 @@ const deleteComment = async (req, res) => {
       return res.status(401).json({ error: "Invalid token" });
     }
 
-    const deletedComment = await Comment.findOneAndDelete({ _id, uuid });
+    const deletedComment = await Comment.findOneAndDelete({ _id: id, uuid });
 
     if (!deletedComment) {
       return res.status(404).json({ error: "Comment not found" });
     }
 
-    res.status(200).json({ message: "Comment deleted successfully" });
+    res.status(204).json({ message: "Comment deleted successfully" });
   } catch (err) {
     console.error("Error deleting comment:", err.message);
     res.status(500).json({ error: err.message });
