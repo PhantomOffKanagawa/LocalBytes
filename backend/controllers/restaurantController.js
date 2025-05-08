@@ -1,6 +1,7 @@
 const Restaurant = require("../models/Restaurant");
 const { fetchAllRestaurants } = require("../services/googlePlacesService");
 const config = require("../utils/config");
+const axios = require("axios");
 
 // Get all restaurants
 const getRestaurants = async (req, res) => {
@@ -26,8 +27,6 @@ const fetchAndSaveRestaurants = async (req, res) => {
   } = req.query;
   const apiKey = config.GMAPS_API_KEY;
 
-  console.log(apiKey);
-
   if (!apiKey) {
     return res.status(400).json({ error: "Google Maps API key is required" });
   }
@@ -35,34 +34,70 @@ const fetchAndSaveRestaurants = async (req, res) => {
   try {
     const results = await fetchAllRestaurants(query, lat, lng, radius, apiKey);
 
-    const entries = results.map((p) => ({
-      name: p.name,
-      address: p.formatted_address || p.vicinity,
-      location: {
-        lat: p.geometry.location.lat,
-        lng: p.geometry.location.lng,
-      },
-      icon: p.icon,
-      icon_background_color: p.icon_background_color,
-      icon_mask_base_uri: p.icon_mask_base_uri,
-      opening_hours: {
-        open_now: p.opening_hours?.open_now || false,
-      },
-      photos: p.photos?.[0]
-        ? {
-            height: p.photos[0].height,
-            width: p.photos[0].width,
-            attributions: p.photos[0].html_attributions,
-            reference: p.photos[0].photo_reference,
+    const entries = [];
+
+    for (const p of results) {
+      let photo_url = "";
+
+      if (p.photos?.[0]?.photo_reference) {
+        // Fallback to Place Details API
+        try {
+          const details = await axios.get("https://maps.googleapis.com/maps/api/place/details/json", {
+            params: {
+              place_id: p.place_id,
+              fields: "photos",
+              key: apiKey,
+            },
+          });
+
+          const photoRef = details.data.result?.photos?.[0]?.photo_reference;
+          if (photoRef) {
+            const photoResp = await axios.get("https://maps.googleapis.com/maps/api/place/photo", {
+              maxRedirects: 0,
+              validateStatus: status => status === 302,
+              params: {
+                maxwidth: 400,
+                photo_reference: photoRef,
+                key: apiKey,
+              },
+            });
+            console.log("Photo fallback headers:", photoResp.headers);
+            console.log("Photo fallback status:", photoResp.status);
+            photo_url = photoResp.headers.location;
           }
-        : null,
-      rating: p.rating || null,
-      price_level: p.price_level || null,
-      place_id: p.place_id,
-      user_ratings_total: p.user_ratings_total || 0,
-      types: p.types || [],
-      google_maps_url: `https://www.google.com/maps/place/?q=place_id:${p.place_id}`,
-    }));
+          else {
+            console.error(`No photo reference found for ${p.name}`);
+          }
+        } catch (err) {
+          console.error(`Fallback photo fetch failed for ${p.name}:`, err.message);
+        }
+      } else {
+        console.error(`No photo reference found for ${p.name}`);
+      }
+      console.log("Photo URL:", photo_url);
+      
+      entries.push({
+        name: p.name,
+        address: p.formatted_address || p.vicinity,
+        location: {
+          lat: p.geometry.location.lat,
+          lng: p.geometry.location.lng,
+        },
+        icon: p.icon,
+        icon_background_color: p.icon_background_color,
+        icon_mask_base_uri: p.icon_mask_base_uri,
+        opening_hours: {
+          open_now: p.opening_hours?.open_now || false,
+        },
+        photos: photo_url || "None",
+        rating: p.rating || null,
+        price_level: typeof p.price_level === 'number' ? p.price_level : -1,
+        place_id: p.place_id,
+        user_ratings_total: p.user_ratings_total || 0,
+        types: p.types || [],
+        google_maps_url: `https://www.google.com/maps/place/?q=place_id:${p.place_id}`,
+      });
+    }
 
     const added = [];
     for (const entry of entries) {
@@ -78,6 +113,9 @@ const fetchAndSaveRestaurants = async (req, res) => {
         }
       } catch (err) {
         console.error(`Error processing ${entry.name}:`, err.message);
+        if (err.name === 'ValidationError' || err.message.includes('Document failed validation')) {
+          console.error("Invalid document:", JSON.stringify(entry, null, 2));
+        }        
       }
     }
 
@@ -85,7 +123,7 @@ const fetchAndSaveRestaurants = async (req, res) => {
   } catch (err) {
     console.error(
       "Error fetching restaurants from Google Places API:",
-      err.message,
+      err.message
     );
     res.status(500).json({ error: err.message });
   }

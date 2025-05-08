@@ -14,12 +14,7 @@ const restaurantSchema = new mongoose.Schema(
     opening_hours: {
       open_now: Boolean,
     },
-    photos: {
-      height: Number,
-      width: Number,
-      attributions: [String],
-      reference: String,
-    },
+    photos: String,
     rating: Number,
     price_level: Number,
     place_id: { type: String, unique: true },
