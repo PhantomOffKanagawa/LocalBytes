@@ -23,11 +23,11 @@
             <span class="text-gray-700 font-medium">Rating:</span>
             <div class="flex items-center space-x-1">
               <!-- Star Rating -->
-              <app-star [elementID]="restaurant.id" [fixedRating]="restaurant.rating" [rated]="restaurant.user_rating ?? undefined"></app-star>
+              <app-star [restaurant]="restaurant"></app-star>
             </div>
-            <span class="text-gray-600 text-sm ps-2"
-              >({{ restaurant.rating.toPrecision(2) }})</span
-            >
+            <!-- <span class="text-gray-600 text-sm ps-2"
+              >({{ restaurant.user_rating ?? restaurant.rating.toPrecision(2) }})</span
+            > -->
           </div>
         </div>
         <p class="text-gray-700 leading-relaxed">
@@ -36,6 +36,6 @@
       </div>
     </div>
 
-    <app-comments *ngIf="restaurant" [restaurantId]="restaurant.id.toString()" class="pb-6"></app-comments>
+    <app-comments *ngIf="restaurant" [restaurantId]="restaurant.place_id.toString()" class="pb-6"></app-comments>
   </div>
 </main>

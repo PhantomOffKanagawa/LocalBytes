@@ -55,6 +55,9 @@ router.get("/place/:placeId", ratingController.getRatingsByPlaceId);
  * @apiSuccess {Float} review.rating Rating of the review
  * @apiSuccess {String} review.place_id Google Place ID of the restaurant
  * @apiSuccess {Date} review.created_at Creation timestamp
+ * @apiSuccess {String\|undefined} review.error Error message from updating restaurant (if any)
+ * @apiSuccess {Number\|undefined} review.average_rating Updated restaurant rating (if any)
+ * @apiSuccess {Number\|undefined} review.total_ratings Updated total restaurant ratings (if any)
  *
  * @apiSuccessExample {json} Success-Response:
  *    {
@@ -63,7 +66,9 @@ router.get("/place/:placeId", ratingController.getRatingsByPlaceId);
  *      "_id": "681a9bfd54e9712a49f38e30",
  *      "createdAt": "2025-05-06T23:32:13.965Z",
  *      "updatedAt": "2025-05-06T23:32:13.965Z",
- *      "__v": 0
+ *      "__v": 0,
+ *      "average_rating": 4.5,
+ *      "total_ratings": 10,
  *    }
  */
 router.post("/", ratingController.createRating);
@@ -89,16 +94,21 @@ router.post("/", ratingController.createRating);
  * @apiSuccess {Float} review.rating Rating of the review
  * @apiSuccess {String} review.place_id Google Place ID of the restaurant
  * @apiSuccess {Date} review.created_at Creation timestamp
+ * @apiSuccess {String\|undefined} review.error Error message from updating restaurant (if any)
+ * @apiSuccess {Number\|undefined} review.average_rating Updated restaurant rating (if any)
+ * @apiSuccess {Number\|undefined} review.total_ratings Updated total restaurant ratings (if any)
  *
  * @apiSuccessExample {json} Success-Response:
- * {
- *   "_id": "681bc21b9972f17507586c51",
- *   "rating": 4,
- *   "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
- *   "createdAt": "2025-05-07T20:27:07.819Z",
- *   "updatedAt": "2025-05-07T20:45:55.424Z",
- *   "__v": 0
- * }
+ *   {
+ *     "_id": "681bc21b9972f17507586c51",
+ *     "rating": 4,
+ *     "place_id": "ChIJ6aBmh5y33IcRxEkvNZCW_gQ",
+ *     "createdAt": "2025-05-07T20:27:07.819Z",
+ *     "updatedAt": "2025-05-07T20:45:55.424Z",
+ *     "__v": 0,
+ *     "average_rating": 4.5,
+ *     "total_ratings": 10,
+ *   }
  */
 router.put("/", ratingController.updateRating);
 

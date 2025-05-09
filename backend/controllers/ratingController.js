@@ -1,5 +1,34 @@
 const Rating = require("../models/Rating");
+const Restaurant = require("../models/Restaurant");
 const { getUserUuidFromToken } = require("../utils/helpers");
+
+// Helper function to update restaurant rating
+const updateRestaurantRating = async (place_id) => {
+  try {
+    // Get all ratings for this restaurant
+    const ratings = await Rating.find({ place_id });
+    
+    // Calculate average rating
+    const totalRating = ratings.reduce((sum, item) => sum + item.rating, 0);
+    const averageRating = ratings.length > 0 ? (totalRating / ratings.length) : 0;
+    
+    // Update restaurant with new rating and total number of ratings
+    await Restaurant.findOneAndUpdate(
+      { place_id },
+      { 
+        rating: Number(averageRating.toFixed(1)),
+        user_ratings_total: ratings.length
+      }
+    );
+
+    console.log(`Updated restaurant ${place_id} rating to ${averageRating.toFixed(1)}`);
+
+    return { average_rating: averageRating.toFixed(1), total_ratings: ratings.length };
+  } catch (err) {
+    console.error("Error updating restaurant rating:", err.message);
+    return { error: err.message };
+  }
+};
 
 // Get ratings for a specific restaurant
 const getRatingsByPlaceId = async (req, res) => {
@@ -50,11 +79,13 @@ const createRating = async (req, res) => {
       rating,
       place_id,
       uuid,
-      datetime: new Date(),
-    });
+    });    
+
+    // Update the restaurant's overall rating
+    const newRestaurantRating = await updateRestaurantRating(place_id);
 
     const savedRating = await newRating.save();
-    res.status(201).json(savedRating);
+    res.status(201).json({ ...savedRating.toObject(), ...newRestaurantRating });
   } catch (err) {
     console.error("Error creating rating:", err.message);
     res.status(500).json({ error: err.message });
@@ -84,16 +115,18 @@ const updateRating = async (req, res) => {
       { place_id, uuid },
       { 
         rating,
-        datetime: new Date()
       },
       { 
         // Is new necessary?
         new: true,
         upsert: true
       }
-    );
+    );    
 
-    res.status(200).json(updatedRating);
+    // Update the restaurant's overall rating
+    const newRestaurantRating = await updateRestaurantRating(place_id);
+
+    res.status(200).json({ ...updatedRating.toObject(), ...newRestaurantRating });
   } catch (err) {
     console.error("Error updating rating:", err.message);
     res.status(500).json({ error: err.message });

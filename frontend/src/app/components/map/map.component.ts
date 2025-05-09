@@ -137,8 +137,8 @@ export class MapViewComponent implements OnInit, OnDestroy {
         <div class="popup-content">
           <h3>${restaurant.title}</h3>
           <p>${restaurant.description}</p>
-          <p>Rating: ${restaurant.rating.toPrecision(2)}</p>
-          <button class="details-btn" data-restaurant-id="${restaurant.id}">
+          <p>Rating: ${(restaurant.rating ?? 0).toPrecision(2)}</p>
+          <button class="details-btn" data-restaurant-id="${restaurant.place_id}">
         View Details
           </button>
         </div>
@@ -153,7 +153,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
         // On open of the popup, we need to add the event listener to the button
         // This calls the mapInteractionService to open the details dialog
         const button = document.querySelector(
-          `.details-btn[data-restaurant-id="${restaurant.id}"]`
+          `.details-btn[data-restaurant-id="${restaurant.place_id}"]`
         );
         if (button) {
           // Remove existing event listeners to prevent multiple calls

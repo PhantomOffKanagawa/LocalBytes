@@ -21,7 +21,7 @@ export class RestaurantService {
     // Since Restaurants are not dynamically updated, we can use sessionStorage to cache them
     // This will prevent unnecessary API calls and improve performance
     // Check if restaurants are stored in sessionStorage
-    const storedRestaurants = sessionStorage.getItem('restaurants');
+    // const storedRestaurants = sessionStorage.getItem('restaurants');
     // if (storedRestaurants) {
     //   console.log('Using cached restaurants from sessionStorage');
     //   this.restaurants = JSON.parse(storedRestaurants);
@@ -68,15 +68,32 @@ export class RestaurantService {
     return this.restaurants;
   }
 
+  updateRestaurant(restaurant: Restaurant): void {
+    // Find the index of the restaurant to update
+    const index = this.restaurants.findIndex(r => r.id === restaurant.id);
+    if (index !== -1) {
+      // Update the restaurant in the array
+      this.restaurants[index] = restaurant;
+      // Notify subscribers about the update
+      this.restaurantsUpdated.next([...this.restaurants]);
+      // Update the restaurant in sessionStorage
+      // sessionStorage.setItem('restaurants', JSON.stringify(this.restaurants));
+    } else {
+      console.error('Restaurant not found for update:', restaurant);
+    }
+  }
+
   // For rapid development, use an adapter to convert the API response to the Restaurant model
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   restaurantAdapter(data: any): Restaurant {
     return {
       id: data._id,
+      place_id: data.place_id,
       title: data.name,
       description: data.address,
       rating: data.rating,
       user_rating: data.user_rating,
+      ratings: data.user_ratings_total,
       comments: [],
       icon_url: data.icon,
       geometry: {

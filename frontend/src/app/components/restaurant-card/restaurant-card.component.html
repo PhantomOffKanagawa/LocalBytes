@@ -47,18 +47,25 @@
           class="text-gray-700 leading-relaxed"
           *ngIf="restaurant.description.length > 50">
           {{ restaurant.description.substring(0, 50) }}...
-          <a href="#" class="text-gray-600 hover:underline">Read more</a>
+          <a
+            (click)="openDialog()"
+            (keydown.enter)="openDialog()"
+            tabindex="0"
+            role="button"
+            class="text-gray-600 hover:underline cursor-pointer">
+            Read more
+          </a>
         </p>
       </div>
       <div id="Stars" class="mt-4">
         <h2 class="text-lg font-medium text-gray-800 mb-2">Rating</h2>
         <div class="flex items-center space-x-1 mb-3">
           <!-- Star Rating -->
-          <app-star [elementID]="restaurant.id" [fixedRating]="restaurant.rating" [rated]="restaurant.user_rating ?? undefined"></app-star>
+          <app-star [restaurant]="restaurant"></app-star>
         </div>
         <!-- <p class="text-sm text-gray-600 mb-2">Rate your Experience:</p>
         <div class="ml-2">
-          <app-star [elementID]="restaurant.id"></app-star>
+          <app-star [elementID]="restaurant.place_id"></app-star>
         </div> -->
       </div>
     </mat-card-content>
