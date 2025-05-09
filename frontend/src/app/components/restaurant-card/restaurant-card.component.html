@@ -2,7 +2,7 @@
   <!-- Image placeholder (left half) -->
   <div class="lg:w-1/2 h-48 lg:h-auto flex items-center justify-center">
     <img
-      src="https://placehold.co/300x200"
+      src="{{ restaurant.image_url ?? 'https://placehold.co/300x200?text=X' }}"
       alt="Restaurant image"
       class="object-cover w-full h-full" />
   </div>

@@ -96,6 +96,7 @@ export class RestaurantService {
       ratings: data.user_ratings_total,
       comments: [],
       icon_url: data.icon,
+      image_url: data.local_image_url ? `${environment.apiUrl}/${data.local_image_url}` : undefined,
       geometry: {
         coordinates: [data.location.lng, data.location.lat],
       },

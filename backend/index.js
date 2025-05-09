@@ -45,6 +45,9 @@ app.use("/api/auth", authRoutes);
 // Serve API documentation
 app.use("/api-docs", express.static(path.join(__dirname, "docs")));
 
+// Serve static files from the public directory
+app.use("/api/public", express.static(path.join(__dirname, "public")));
+
 // Serve root route
 app.get("/", (req, res) => {
   res.send("LocalBytes API is running");

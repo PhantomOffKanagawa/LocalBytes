@@ -13,7 +13,8 @@ const { fetchAndSaveRestaurants } = require("./controllers/restaurantController"
 
   // MongoDB connection logic
   try {
-    await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(process.env.MONGO_URI);
+    // await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
     console.log("Connected to MongoDB");
 
     // Fake req/res objects
