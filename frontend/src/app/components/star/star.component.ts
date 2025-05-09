@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { AuthenticationService } from '@services/authentication.service';
@@ -20,13 +20,16 @@ interface RatingResponse {
   selector: 'app-star',
   imports: [NgFor, NgIf],
   templateUrl: './star.component.html',
-  styleUrl: './star.component.css'
+  styleUrl: './star.component.css',
 })
-
-export class StarComponent {
-  constructor(private authService: AuthenticationService, private restaurantService: RestaurantService, private HttpClient: HttpClient) {}
+export class StarComponent implements OnInit {
+  constructor(
+    private authService: AuthenticationService,
+    private restaurantService: RestaurantService,
+    private HttpClient: HttpClient
+  ) {}
   @Input() restaurant: Restaurant | undefined = undefined;
-  
+
   elementID: string | undefined = undefined;
   fixedRating: number | undefined = undefined;
   rated: number | undefined = undefined;
@@ -72,15 +75,19 @@ export class StarComponent {
     this.rated = star;
     console.log(`Rated ${star} stars for elementId: ${this.elementID}`);
     const token = this.authService.getToken();
-    if(this.elementID && token){
-      this.HttpClient.put<RatingResponse>(`${environment.apiUrl}/ratings`, {
-        rating: this.rated,
-        place_id: this.elementID,
-        token: token
-      }, {
-        headers: { 'Content-Type': 'application/json' }
-      }).subscribe({
-        next: (res) => {
+    if (this.elementID && token) {
+      this.HttpClient.put<RatingResponse>(
+        `${environment.apiUrl}/ratings`,
+        {
+          rating: this.rated,
+          place_id: this.elementID,
+          token: token,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+        }
+      ).subscribe({
+        next: res => {
           console.log('Rating submitted successfully');
           this.rating = res['average_rating'] ?? this.rating;
           this.ratings = res['total_ratings'] ?? this.ratings;
@@ -90,12 +97,12 @@ export class StarComponent {
             ...this.restaurant!,
             user_rating: this.rated,
             rating: this.rating ?? this.restaurant!.rating,
-            ratings: this.ratings
+            ratings: this.ratings,
           };
 
           this.restaurantService.updateRestaurant(newRestaurant);
         },
-        error: (err) => console.error('Error submitting rating', err)
+        error: err => console.error('Error submitting rating', err),
       });
     }
   }

@@ -87,7 +87,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
     let filtered = [...this.restaurants];
 
     // Apply price level and rating filters first
-    filtered = filtered.filter((restaurant) => {
+    filtered = filtered.filter(restaurant => {
       const matchesPriceLevel =
         this.selectedPriceLevel === '' ||
         restaurant.price_level == this.selectedPriceLevel;
@@ -102,9 +102,9 @@ export class ListViewComponent implements OnInit, OnDestroy {
       const fuse = new Fuse(filtered, {
         keys: ['title', 'description', 'address'],
         threshold: 0.5,
-        distance: 100
+        distance: 100,
       });
-      
+
       const searchResults = fuse.search(this.searchQuery);
       this.filteredRestaurants = searchResults.map(result => result.item);
     } else {

@@ -15,7 +15,10 @@ export class RestaurantService {
   lat: number = 38.951561;
   lng: number = -92.328636;
 
-  constructor(private http: HttpClient, private authService: AuthenticationService) {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthenticationService
+  ) {}
 
   getRestaurants(): Restaurant[] {
     // Since Restaurants are not dynamically updated, we can use sessionStorage to cache them
@@ -96,7 +99,9 @@ export class RestaurantService {
       ratings: data.user_ratings_total,
       comments: [],
       icon_url: data.icon,
-      image_url: data.local_image_url ? `${environment.apiUrl}/${data.local_image_url}` : undefined,
+      image_url: data.local_image_url
+        ? `${environment.apiUrl}/${data.local_image_url}`
+        : undefined,
       geometry: {
         coordinates: [data.location.lng, data.location.lat],
       },

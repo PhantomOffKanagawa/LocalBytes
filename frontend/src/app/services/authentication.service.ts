@@ -62,7 +62,10 @@ export class AuthenticationService {
     this.http
       // Expect the response to be an object with a message and authenticated status
       // Pass the token in the request body
-      .post<{ message: string; authenticated: boolean }>(`${this.apiUrl}/verify`, { token: this.token })
+      .post<{ message: string; authenticated: boolean }>(
+        `${this.apiUrl}/verify`,
+        { token: this.token }
+      )
       .subscribe({
         // Handle the response from the server by updating the authentication status
         next: data => {

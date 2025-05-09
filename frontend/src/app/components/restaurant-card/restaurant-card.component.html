@@ -1,4 +1,5 @@
-<div class="h-full bg-white flex flex-col lg:flex-row rounded-lg shadow-md overflow-hidden">
+<div
+  class="h-full bg-white flex flex-col lg:flex-row rounded-lg shadow-md overflow-hidden">
   <!-- Image placeholder (left half) -->
   <div class="lg:w-1/2 h-48 lg:h-auto flex items-center justify-center">
     <img
@@ -7,29 +8,33 @@
       class="object-cover w-full h-full" />
   </div>
   <!-- Content (right half) -->
-<div class="lg:w-1/2 flex flex-col p-4 bg-white">
-  <mat-card-header class="mb-2">
-    <div class="flex justify-between w-full">
-    <!-- Title on the left -->
-    <h1 class="text-xl font-semibold text-gray-700">
-      <a
-      (click)="openDialog()"
-      (keydown.enter)="openDialog()"
-      tabindex="0"
-      role="button"
-      [matTooltip]="restaurant.title"
-      class="cursor-pointer hover:text-gray-500 transition-colors duration-200">
-      {{ restaurant.title }}
-      </a>
-    </h1>
-    </div>
-  </mat-card-header>
+  <div class="lg:w-1/2 flex flex-col p-4 bg-white">
+    <mat-card-header class="mb-2">
+      <div class="flex justify-between w-full">
+        <!-- Title on the left -->
+        <h1 class="text-xl font-semibold text-gray-700">
+          <a
+            (click)="openDialog()"
+            (keydown.enter)="openDialog()"
+            tabindex="0"
+            role="button"
+            [matTooltip]="restaurant.title"
+            class="cursor-pointer hover:text-gray-500 transition-colors duration-200">
+            {{ restaurant.title }}
+          </a>
+        </h1>
+      </div>
+    </mat-card-header>
     <mat-divider class="mb-4"></mat-divider>
     <mat-card-content class="flex-1 flex flex-col justify-between">
       <div>
         <h2 class="text-lg font-medium text-gray-800 mb-2">Description</h2>
         <p class="text-gray-700 leading-relaxed min-h-[3rem]">
-          {{ restaurant.description.length <= 75 ? restaurant.description : restaurant.description.substring(0, 75) + '...' }}
+          {{
+            restaurant.description.length <= 75
+              ? restaurant.description
+              : restaurant.description.substring(0, 75) + '...'
+          }}
           <!-- <a
             *ngIf="restaurant.description.length > 50"
             (click)="openDialog()"
@@ -49,27 +54,33 @@
       </div>
     </mat-card-content>
   </div>
-    <!-- Icons stacked vertically on the right -->
-<div class="flex flex-row lg:flex-col justify-between gap-2 p-4 border-l border-gray-200 items-center">
-  <a
-    mat-icon-button
-    color="primary"
-    href="{{ restaurant.google_maps_url }}"
-    matTooltip="Show on map"
-    class="flex items-center justify-center">
-    <mat-icon>map</mat-icon>
-  </a>
-  <button
-    mat-icon-button
-    color="primary"
-    (click)="zoomToRestaurant()"
-    matTooltip="Show on map"
-    class="flex items-center justify-center">
-    <mat-icon>place</mat-icon>
-  </button>
-  <div class="flex items-center justify-center h-10 w-10">
-    <span class="text-green-600 text-2xl text-center pointer-events-none">
-      {{ restaurant.price_level != -1 ? '$'.repeat(restaurant.price_level ?? 0) : '' }}
-    </span>
+  <!-- Icons stacked vertically on the right -->
+  <div
+    class="flex flex-row lg:flex-col justify-between gap-2 p-4 border-l border-gray-200 items-center">
+    <a
+      mat-icon-button
+      color="primary"
+      href="{{ restaurant.google_maps_url }}"
+      matTooltip="Show on map"
+      class="flex items-center justify-center">
+      <mat-icon>map</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="primary"
+      (click)="zoomToRestaurant()"
+      matTooltip="Show on map"
+      class="flex items-center justify-center">
+      <mat-icon>place</mat-icon>
+    </button>
+    <div class="flex items-center justify-center h-10 w-10">
+      <span class="text-green-600 text-2xl text-center pointer-events-none">
+        {{
+          restaurant.price_level !== -1
+            ? '$'.repeat(restaurant.price_level ?? 0)
+            : ''
+        }}
+      </span>
+    </div>
   </div>
 </div>

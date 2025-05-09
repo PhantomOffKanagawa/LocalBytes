@@ -5,13 +5,16 @@
 
     <!-- Comments List -->
     <div *ngIf="comments?.length; else noComments" class="space-y-6">
-      <div *ngFor="let comment of comments" 
-           class="bg-gray-50 rounded-xl p-6 transition-all duration-200 hover:shadow-sm">
-        
+      <div
+        *ngFor="let comment of comments"
+        class="bg-gray-50 rounded-xl p-6 transition-all duration-200 hover:shadow-sm">
         <!-- Edit Mode -->
-        <ng-container *ngIf="editingComment?._id === comment._id; else viewComment">
-          <form #editForm="ngForm" (ngSubmit)="saveEditedComment(comment._id, editForm)" 
-                class="space-y-4">
+        <ng-container
+          *ngIf="editingComment?._id === comment._id; else viewComment">
+          <form
+            #editForm="ngForm"
+            (ngSubmit)="saveEditedComment(comment._id, editForm)"
+            class="space-y-4">
             <textarea
               name="editedBody"
               [(ngModel)]="editedBody"
@@ -21,13 +24,15 @@
               placeholder="Edit your comment">
             </textarea>
             <div class="flex gap-3">
-              <button type="submit"
-                      class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+              <button
+                type="submit"
+                class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
                 Save
               </button>
-              <button type="button"
-                      class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                      (click)="cancelEdit()">
+              <button
+                type="button"
+                class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                (click)="cancelEdit()">
                 Cancel
               </button>
             </div>
@@ -37,16 +42,21 @@
         <!-- View Mode -->
         <ng-template #viewComment>
           <div class="flex justify-between items-start">
-            <p class="text-gray-800 text-lg {{comment.owner ? 'font-medium' : ''}}">
+            <p
+              class="text-gray-800 text-lg {{
+                comment.owner ? 'font-medium' : ''
+              }}">
               {{ comment.body }}
             </p>
             <div class="flex gap-2 ml-4 flex-shrink-0" *ngIf="comment.owner">
-              <button class="text-blue-500 hover:text-blue-700 transition-colors"
-                      (click)="startEdit(comment)">
+              <button
+                class="text-blue-500 hover:text-blue-700 transition-colors"
+                (click)="startEdit(comment)">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button class="text-red-500 hover:text-red-700 transition-colors"
-                      (click)="confirmDelete(comment._id)">
+              <button
+                class="text-red-500 hover:text-red-700 transition-colors"
+                (click)="confirmDelete(comment._id)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -58,7 +68,9 @@
     <!-- No Comments Message -->
     <ng-template #noComments>
       <div class="text-center py-8">
-        <p class="text-gray-500 text-lg">No comments yet. Be the first to comment!</p>
+        <p class="text-gray-500 text-lg">
+          No comments yet. Be the first to comment!
+        </p>
       </div>
     </ng-template>
 
