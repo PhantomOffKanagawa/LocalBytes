@@ -128,10 +128,10 @@ const fetchAndSaveRestaurants = async (req, res) => {
           open_now: p.opening_hours?.open_now || false,
         },
         photos: photo_url || "None",
-        rating: p.rating || null,
+        rating: 0 || 0, // Previously p.rating
         price_level: typeof p.price_level === 'number' ? p.price_level : -1,
         place_id: p.place_id,
-        user_ratings_total: p.user_ratings_total || 0,
+        user_ratings_total: 0 || 0, // Previously p.user_ratings_total
         types: p.types || [],
         google_maps_url: `https://www.google.com/maps/place/?q=place_id:${p.place_id}`,
       });
