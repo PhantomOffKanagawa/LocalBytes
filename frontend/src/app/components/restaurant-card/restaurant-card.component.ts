@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Restaurant } from '@models/restaurant';
 import { MapInteractionService } from '@services/map-interaction.service';
 import { StarComponent } from '@components/star/star.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 @Component({
   selector: 'app-restaurant-card',
   imports: [
@@ -16,11 +18,13 @@ import { StarComponent } from '@components/star/star.component';
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
-    StarComponent
+    StarComponent,
+    MatTooltipModule
   ],
   templateUrl: './restaurant-card.component.html',
   styleUrl: './restaurant-card.component.css',
 })
+
 export class RestaurantCardComponent {
   // Input property to receive restaurant data
   @Input()

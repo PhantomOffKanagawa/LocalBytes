@@ -14,4 +14,11 @@ export interface Restaurant {
   geometry: {
     coordinates: [number, number];
   };
+  address?: string;
+  price_level?: number;
+  user_ratings_total?: number;
+  // opening_hours?: {
+  //   open_now: boolean;
+  // };
+  google_maps_url?: string;
 }

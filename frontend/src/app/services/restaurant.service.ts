@@ -99,6 +99,10 @@ export class RestaurantService {
       geometry: {
         coordinates: [data.location.lng, data.location.lat],
       },
+      address: data.address,
+      price_level: data.price_level,
+      user_ratings_total: data.user_ratings_total,
+      google_maps_url: data.google_maps_url,
     };
   }
 
