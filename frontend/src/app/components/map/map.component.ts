@@ -137,7 +137,7 @@ export class MapViewComponent implements OnInit, OnDestroy {
         <div class="popup-content">
           <h3>${restaurant.title}</h3>
           <p>${restaurant.description}</p>
-          <p>Rating: ${(restaurant.rating ?? 0).toPrecision(2)}</p>
+          <p>Rating: ${(restaurant.rating ?? 0).toPrecision(2)} (${restaurant.ratings ?? 0} ratings)</p>
           <button class="details-btn" data-restaurant-id="${restaurant.place_id}">
         View Details
           </button>
