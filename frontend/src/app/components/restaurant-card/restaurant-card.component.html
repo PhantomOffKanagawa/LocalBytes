@@ -29,8 +29,8 @@
       <div>
         <h2 class="text-lg font-medium text-gray-800 mb-2">Description</h2>
         <p class="text-gray-700 leading-relaxed min-h-[3rem]">
-          {{ restaurant.description.length <= 50 ? restaurant.description : restaurant.description.substring(0, 50) + '...' }}
-          <a
+          {{ restaurant.description.length <= 75 ? restaurant.description : restaurant.description.substring(0, 75) + '...' }}
+          <!-- <a
             *ngIf="restaurant.description.length > 50"
             (click)="openDialog()"
             (keydown.enter)="openDialog()"
@@ -38,7 +38,7 @@
             role="button"
             class="text-gray-600 hover:underline cursor-pointer">
             Read more
-          </a>
+          </a> -->
         </p>
       </div>
       <div id="Stars" class="mt-auto pt-4">

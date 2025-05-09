@@ -100,7 +100,7 @@ export class ListViewComponent implements OnInit, OnDestroy {
     // Apply fuzzy search if there's a search query
     if (this.searchQuery) {
       const fuse = new Fuse(filtered, {
-        keys: ['title'],
+        keys: ['title', 'description', 'address'],
         threshold: 0.5,
         distance: 100
       });
