@@ -7,6 +7,13 @@ const restaurantController = require("../controllers/restaurantController");
  * @apiName GetRestaurants
  * @apiGroup Restaurant
  * 
+ * @apiHeader {String} [Authorization] Optional Bearer token ("Bearer <token>")
+ *
+ * @apiHeaderExample {json} Header-Example:
+ *   {
+ *    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *   }
+ * 
  * @apiSuccess {Object[]} restaurants List of restaurant objects
  * @apiSuccess {Float\|undefined} restaurants.rating Rating of the restaurant (if available and token passed)
  *

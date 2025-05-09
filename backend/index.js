@@ -15,7 +15,7 @@ connectDB();
 // Add morgan for logging requests
 app.use(
   morgan("dev", {
-    skip: (req, res) => req.originalUrl.startsWith("/api-docs/"),
+    skip: (req, res) => req.originalUrl.startsWith("/api-docs/") || req.originalUrl.startsWith("/api/public/"),
   }),
 );
 

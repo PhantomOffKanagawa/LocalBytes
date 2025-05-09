@@ -31,13 +31,13 @@ const getRestaurants = async (req, res) => {
         ratings.map((r) => [r.place_id, r.rating])
       );
 
-      console.log("Ratings by place_id:", ratingsByPlaceId);
-      console.log("Restaurants:", restaurants[0]);
+      // console.log("Ratings by place_id:", ratingsByPlaceId);
+      // console.log("Restaurants:", restaurants[0]);
 
       // Combine restaurants with user ratings
       const restaurantsWithRatings = restaurants.map((restaurant) => ({
         ...restaurant,
-        user_rating: ratingsByPlaceId[restaurant._id] || null,
+        user_rating: ratingsByPlaceId[restaurant.place_id] || null,
       }));
 
       return res.json(restaurantsWithRatings);
