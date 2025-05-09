@@ -96,9 +96,11 @@ export class StarComponent implements OnInit {
           const newRestaurant: Restaurant = {
             ...this.restaurant!,
             user_rating: this.rated,
-            rating: this.rating ?? this.restaurant!.rating,
+            rating: parseFloat(this.rating as unknown as string),
             ratings: this.ratings,
           };
+
+          console.log('Updated restaurant:', newRestaurant);
 
           this.restaurantService.updateRestaurant(newRestaurant);
         },

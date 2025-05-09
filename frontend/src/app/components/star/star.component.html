@@ -1,6 +1,6 @@
 <div class="star-container">
   <!-- Main stars -->
-  <div class="star-rating ml-1">
+  <div class="star-rating ml-1 d-flex align-items-center align-text-center">
     <ng-container *ngFor="let star of stars; let i = index">
       <span
         class="star"
@@ -16,7 +16,9 @@
         >&#9733;</span
       >
     </ng-container>
-    ({{ ratings }})
+    <div *ngIf="!rated" class="inline-block">
+      ({{ ratings }})
+    </div>
   </div>
 
   <!-- Animated rating stars -->
