@@ -5,6 +5,7 @@
     <!-- Image at the top -->
     <div class="relative rounded-xl shadow-lg">
       <img
+        tabindex="0"
         src="{{
           restaurant.image_url ?? 'https://placehold.co/600x300?text=No Image'
         }}"
@@ -43,6 +44,7 @@
     <app-comments
       *ngIf="restaurant"
       [restaurantId]="restaurant.place_id.toString()"
-      class="pb-6"></app-comments>
+      class="pb-6"
+      tabindex="-1"></app-comments>
   </div>
 </main>

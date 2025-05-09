@@ -209,6 +209,10 @@ const fetchAndSaveRestaurants = async (req, res) => {
 // Regenerate images for all restaurants
 const regenerateImages = async (req, res) => {
   const apiKey = config.GMAPS_API_KEY;
+
+  if (apiKey == "") {
+    return res.status(400).json({ error: "Google Maps API key is required" });
+  }
   
   try {
     const restaurants = await Restaurant.find({});
@@ -248,12 +252,10 @@ const regenerateImages = async (req, res) => {
             );
 
             // Download the photo to public directory
-            const download_state = await download_image(
+            await download_image(
               photoResp.headers.location,
               photoPath
             );
-
-            console.log("Photo download state:", download_state);
 
             // Save the photo URL to the database
             restaurant.local_image_url = photoPath;
@@ -261,7 +263,9 @@ const regenerateImages = async (req, res) => {
             console.log(`Photo saved to ${photoPath}`);
 
             // Pause a second to avoid hitting the rate limit
-            await new Promise((r) => setTimeout(r, 500));
+            await new Promise((r) => setTimeout(r, 250));
+          } else {
+            console.error(`No photo reference found for ${restaurant.name}`);
           }
         } else if (
           !restaurant.local_image_url &&

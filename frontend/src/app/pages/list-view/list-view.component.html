@@ -1,36 +1,38 @@
-<main class="bg-gray-50 min-h-screen p-8">
+<main id="list-view-main" class="bg-gray-50 h-screen overflow-hidden flex flex-col">
   <!-- Search and Filter Section -->
-  <div class="mb-8 sticky top-0 bg-gray-50 py-4 z-10 border-b border-gray-200">
-    <input
-      type="text"
-      placeholder="Search restaurants... (name or address)"
-      [(ngModel)]="searchQuery"
-      (ngModelChange)="applyFilters()"
-      class="w-full p-2 border border-gray-300 rounded-md" />
-    <div class="mt-4 flex gap-4">
-      <label>
-        Price Level:
-        <select
-          [(ngModel)]="selectedPriceLevel"
-          (ngModelChange)="applyFilters()"
-          class="p-2 border border-gray-300 rounded-md">
-          <option value="">All</option>
-          <option *ngFor="let level of [1, 2, 3, 4]" [value]="level">
-            {{ level }}
-          </option>
-        </select>
-      </label>
-      <label>
-        Minimum Rating:
-        <input
-          type="number"
-          min="0"
-          max="5"
-          step="0.1"
-          [(ngModel)]="minRating"
-          (ngModelChange)="applyFilters()"
-          class="p-2 border border-gray-300 rounded-md" />
-      </label>
+  <div class="sticky top-0 bg-gray-50 py-4 z-10 border-b border-gray-200 px-8 mb-6">
+    <div class="max-w-7xl mx-auto">
+      <input
+        type="text"
+        placeholder="Search restaurants... (name or address)"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="applyFilters()"
+        class="w-full p-2 border border-gray-300 rounded-md" />
+      <div class="mt-4 flex gap-4">
+        <label>
+          Price Level:
+          <select
+            [(ngModel)]="selectedPriceLevel"
+            (ngModelChange)="applyFilters()"
+            class="p-2 border border-gray-300 rounded-md">
+            <option value="">All</option>
+            <option *ngFor="let level of [1, 2, 3, 4]" [value]="level">
+              {{ level }}
+            </option>
+          </select>
+        </label>
+        <label>
+          Minimum Rating:
+          <input
+            type="number"
+            min="0"
+            max="5"
+            step="0.1"
+            [(ngModel)]="minRating"
+            (ngModelChange)="applyFilters()"
+            class="p-2 border border-gray-300 rounded-md" />
+        </label>
+      </div>
     </div>
   </div>
 

@@ -110,6 +110,15 @@ export class ListViewComponent implements OnInit, OnDestroy {
     } else {
       this.filteredRestaurants = filtered;
     }
+
+    // Scroll to the top of the list view using the id
+    const mainElement = document.getElementById('list-view-main');
+    if (mainElement) {
+      console.log('Scrolling to top of main element');
+      mainElement.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      console.error('Main element not found');
+    }
   }
 }
 
