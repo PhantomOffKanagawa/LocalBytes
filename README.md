@@ -124,7 +124,7 @@ Optional command to live update the docs when changes are made to the routes.
 
 ## 👥 Development Team
 
-- [Harrison Surma](https://github.com/PhantomOffKanagawa)
-- [Sam Whitaker](https://github.com/swhita6)
-- [Tom Winterton](https://github.com/TWintertonIV)
-- [Luke Deffenbaugh](https://github.com/Spidious)
+- [Harrison Surma](https://github.com/PhantomOffKanagawa) (Full Stack Developer)
+- [Sam Whitaker](https://github.com/swhita6) (Frontend Developer & Designer)
+- [Tom Winterton](https://github.com/TWintertonIV) (Frontend Developer & Hosting)
+- [Luke Deffenbaugh](https://github.com/Spidious) (Backend Developer)
