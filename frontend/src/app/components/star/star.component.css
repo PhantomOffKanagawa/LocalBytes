@@ -5,14 +5,14 @@
   display: inline-block;
 }
 .star-rating .star.filled {
-  color: #FFD700;
+  color: #ffd700;
 }
 /* .star-rating .star.half {
   color: #FFD700;
 } */
 .star-rating .star.half::after {
   content: '\2605';
-  color: #FFD700;
+  color: #ffd700;
   position: absolute;
   left: 0;
   width: 50%;

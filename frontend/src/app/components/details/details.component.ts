@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,5 +51,12 @@ export class DetailsComponent {
 
     // // Fetch comments for the restaurant when the component is initialized
     // this.commentsService.getCommentsByPlaceId(this.restaurant.id.toString());
+  }
+
+  onCommentBoxFocus(event: FocusEvent): void {
+    const target = event.target as HTMLElement;
+    if (target) {
+      target.blur();
+    }
   }
 }

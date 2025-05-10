@@ -15,7 +15,7 @@ connectDB();
 // Add morgan for logging requests
 app.use(
   morgan("dev", {
-    skip: (req, res) => req.originalUrl.startsWith("/api-docs/"),
+    skip: (req, res) => req.originalUrl.startsWith("/api-docs/") || req.originalUrl.startsWith("/api/public/"),
   }),
 );
 
@@ -44,6 +44,9 @@ app.use("/api/auth", authRoutes);
 
 // Serve API documentation
 app.use("/api-docs", express.static(path.join(__dirname, "docs")));
+
+// Serve static files from the public directory
+app.use("/api/public", express.static(path.join(__dirname, "public")));
 
 // Serve root route
 app.get("/", (req, res) => {

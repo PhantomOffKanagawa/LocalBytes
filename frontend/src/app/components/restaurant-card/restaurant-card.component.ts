@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 
-import { NgFor, NgIf } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,15 +7,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { Restaurant } from '@models/restaurant';
 import { MapInteractionService } from '@services/map-interaction.service';
 import { StarComponent } from '@components/star/star.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 @Component({
   selector: 'app-restaurant-card',
   imports: [
-    NgIf,
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
-    StarComponent
+    StarComponent,
+    MatTooltipModule,
   ],
   templateUrl: './restaurant-card.component.html',
   styleUrl: './restaurant-card.component.css',

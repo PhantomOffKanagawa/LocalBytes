@@ -1,9 +1,9 @@
 <div
-  class="h-full bg-white flex flex-col lg:flex-row h-full rounded-lg shadow-md overflow-hidden">
+  class="h-full bg-white flex flex-col lg:flex-row rounded-lg shadow-md overflow-hidden">
   <!-- Image placeholder (left half) -->
-  <div class="lg:w-1/2 flex items-center justify-center">
+  <div class="lg:w-1/2 h-48 lg:h-auto flex items-center justify-center">
     <img
-      src="https://placehold.co/300x200"
+      src="{{ restaurant.image_url ?? 'https://placehold.co/300x200?text=X' }}"
       alt="Restaurant image"
       class="object-cover w-full h-full" />
   </div>
@@ -11,56 +11,76 @@
   <div class="lg:w-1/2 flex flex-col p-4 bg-white">
     <mat-card-header class="mb-2">
       <div class="flex justify-between w-full">
+        <!-- Title on the left -->
         <h1 class="text-xl font-semibold text-gray-700">
           <a
             (click)="openDialog()"
             (keydown.enter)="openDialog()"
             tabindex="0"
             role="button"
+            [matTooltip]="restaurant.title"
             class="cursor-pointer hover:text-gray-500 transition-colors duration-200">
             {{ restaurant.title }}
           </a>
         </h1>
-
-        <div>
-          <button
-            mat-icon-button
-            color="primary"
-            (click)="zoomToRestaurant()"
-            matTooltip="Show on map"
-            style="margin-top: -0.75rem;">
-            <mat-icon>place</mat-icon>
-          </button>
-        </div>
       </div>
     </mat-card-header>
-    <mat-divider class="mb-2"></mat-divider>
+    <mat-divider class="mb-4"></mat-divider>
     <mat-card-content class="flex-1 flex flex-col justify-between">
       <div>
-        <h2 class="text-lg font-medium text-gray-800">Description</h2>
-        <p
-          class="text-gray-700 leading-relaxed"
-          *ngIf="restaurant.description.length <= 50">
-          {{ restaurant.description }}
-        </p>
-        <p
-          class="text-gray-700 leading-relaxed"
-          *ngIf="restaurant.description.length > 50">
-          {{ restaurant.description.substring(0, 50) }}...
-          <a href="#" class="text-gray-600 hover:underline">Read more</a>
+        <h2 class="text-lg font-medium text-gray-800 mb-2">Description</h2>
+        <p class="text-gray-700 leading-relaxed min-h-[3rem]">
+          {{
+            restaurant.description.length <= 75
+              ? restaurant.description
+              : restaurant.description.substring(0, 75) + '...'
+          }}
+          <!-- <a
+            *ngIf="restaurant.description.length > 50"
+            (click)="openDialog()"
+            (keydown.enter)="openDialog()"
+            tabindex="0"
+            role="button"
+            class="text-gray-600 hover:underline cursor-pointer">
+            Read more
+          </a> -->
         </p>
       </div>
-      <div id="Stars" class="mt-4">
+      <div id="Stars" class="mt-auto pt-4">
         <h2 class="text-lg font-medium text-gray-800 mb-2">Rating</h2>
-        <div class="flex items-center space-x-1 mb-3">
-          <!-- Star Rating -->
-          <app-star [fixedRating]="restaurant.rating"></app-star>
+        <div class="flex items-center space-x-1">
+          <app-star [restaurant]="restaurant"></app-star>
         </div>
-        <!-- <p class="text-sm text-gray-600 mb-2">Rate your Experience:</p>
-        <div class="ml-2">
-          <app-star [elementID]="restaurant.id"></app-star>
-        </div> -->
       </div>
     </mat-card-content>
+  </div>
+  <!-- Icons stacked vertically on the right -->
+  <div
+    class="flex flex-row lg:flex-col justify-between gap-2 p-4 border-l border-gray-200 items-center">
+    <a
+      mat-icon-button
+      color="primary"
+      href="{{ restaurant.google_maps_url }}"
+      matTooltip="Open in Google Maps"
+      class="flex items-center justify-center">
+      <mat-icon>map</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="primary"
+      (click)="zoomToRestaurant()"
+      matTooltip="Show on map"
+      class="flex items-center justify-center">
+      <mat-icon>place</mat-icon>
+    </button>
+    <div class="flex items-center justify-center h-10 w-10">
+      <span class="text-green-600 text-2xl text-center pointer-events-none">
+        {{
+          restaurant.price_level !== -1
+            ? '$'.repeat(restaurant.price_level ?? 0)
+            : ''
+        }}
+      </span>
+    </div>
   </div>
 </div>
