@@ -9,6 +9,8 @@
 
 LocalBytes is a web application designed to help users discover local restaurants in Columbia. The platform allows users to filter restaurants based on cuisine, price range, and other preferences to find dining options that match their needs. Users can leave comments and share their experiences, making it easier for others to find the perfect local dining spot without visiting multiple restaurant websites.
 
+**🌐 Hosted Application**: [https://localbytes.vercel.app](https://localbytes.vercel.app)
+
 ## ✨ Features
 
 - **📋 Details Page**: Find restaurant details including address, phone number, and hours of operation
