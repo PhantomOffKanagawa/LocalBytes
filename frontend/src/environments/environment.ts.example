@@ -1,0 +1,7 @@
+export const environment = {
+  production: false,
+  mapBoxApiKey:
+    'MAP_BOX_API_KEY',
+  mapStyle: 'MAP_BOX_STYLE',
+  apiUrl: 'http://localhost:5000'
+};
